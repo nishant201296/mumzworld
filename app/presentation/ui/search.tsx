@@ -27,7 +27,10 @@ const SearchComponent: React.FC<{ store: ProductStore }> = observer(
           <SearchResult
             products={store.products}
             onProductClick={(product) => {
-              router.navigate("/product_detail");
+              router.push({
+                pathname: "/product_detail",
+                params: { productId: product.id },
+              });
             }}
             onAddToCart={(product) => {
               Alert.alert(

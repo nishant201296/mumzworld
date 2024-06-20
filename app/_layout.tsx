@@ -4,14 +4,17 @@ import { Platform, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "./utils/styles";
 import { ScreenRoutes } from "./presentation/routes";
+import "../localization/i18n";
+import { configureI18 } from "../localization/i18n";
 SplashScreen.preventAutoHideAsync();
+configureI18();
 
 export default function RootLayout() {
   const [isAppReady, setAppReady] = useState(false);
   useEffect(() => {
     async function prepare() {
       try {
-        await new Promise((resolve) => setTimeout(resolve, 500));
+        await new Promise((resolve) => setTimeout(resolve, 250));
       } catch (e) {
         console.warn(e);
       } finally {

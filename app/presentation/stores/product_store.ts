@@ -1,16 +1,29 @@
 import { productLocalDataSource } from "@/app/data/datasources/products_local_data_source";
 import { productRemoteDataSource } from "@/app/data/datasources/products_remote_data_source";
+import { SimpleProduct } from "@/app/data/models/product_detail";
 import { ProductLabel, ProductPrice } from "@/app/data/models/product_list";
 import { ApiResult } from "@/app/utils/utils";
 import { makeAutoObservable, runInAction } from "mobx";
 export class ProductStore {
   products: UIProduct[] = [];
   searchHistoryItems: string[] = [];
+  product: SimpleProduct[] = [];
 
   constructor() {
     makeAutoObservable(this);
   }
 
+  fetchProduct = async (productId: string) => {
+    //API should return product based on product {productId}
+    const product = await productRemoteDataSource.getProduct();
+    if (ApiResult.isSuccess(product)) {
+      this.setProduct(product.data.product);
+    }
+  };
+
+  setProduct = (product: SimpleProduct[]) => {
+    this.product = product;
+  };
   fetchProducts = async () => {
     const productListLarge =
       await productRemoteDataSource.getProductListLargeSet();

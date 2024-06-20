@@ -15,33 +15,8 @@ const Index = () => {
     <View style={styles.container}>
       <Tab.Navigator
         initialRouteName={TabRoutes.categories.name}
-        screenOptions={({ route }) => ({
+        screenOptions={() => ({
           headerShown: false,
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName: string = "";
-            switch (route.name) {
-              case "Categories": {
-                iconName = focused ? "grid-sharp" : "grid-outline";
-                break;
-              }
-              case "Search": {
-                iconName = focused ? "search-circle" : "search-circle-outline";
-                break;
-              }
-              case "Brands": {
-                iconName = focused ? "pricetags-sharp" : "pricetags-outline";
-                break;
-              }
-            }
-
-            return (
-              <Ionicons
-                name={iconName as keyof typeof Ionicons.glyphMap}
-                size={size}
-                color={color}
-              />
-            );
-          },
           tabBarActiveTintColor: Colors.semantic_fg_accent.color,
           tabBarInactiveTintColor: "gray",
           tabBarStyle: {
@@ -57,6 +32,21 @@ const Index = () => {
               name={entry[1].name}
               component={entry[1].route}
               key={entry[0]}
+              options={{
+                tabBarIcon: ({ focused, color, size }) => {
+                  let iconName: string = "";
+                  iconName = focused
+                    ? entry[1].tabIcon.focused
+                    : entry[1].tabIcon.unfocused;
+                  return (
+                    <Ionicons
+                      name={iconName as keyof typeof Ionicons.glyphMap}
+                      size={size}
+                      color={color}
+                    />
+                  );
+                },
+              }}
             />
           );
         })}

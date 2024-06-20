@@ -5,9 +5,23 @@ export interface IProductLocalDataSource {
   updateSearchHistoryItems(items: string[]): Promise<void>;
   getCurrentEtag(): Promise<string | null>;
   setCurrentEtag(etag: string): Promise<void>;
+  getCurrentLang(): Promise<string | null>;
+  setCurrentLang(lang: string): Promise<void>;
 }
 
 class ProductLocalDataSource implements IProductLocalDataSource {
+  async getCurrentLang(): Promise<string | null> {
+    try {
+      return await storage.getItemAsync(CURRENT_LANG);
+    } catch (error) {
+      return "";
+    }
+  }
+  async setCurrentLang(lang: string): Promise<void> {
+    try {
+      await storage.setItemAsync(CURRENT_LANG, lang);
+    } catch (error) {}
+  }
   getSearchHistoryItems = async (): Promise<string[]> => {
     try {
       const result = await storage.getItemAsync(SEARCH_HISTORY_ITEM_KEY);
@@ -29,8 +43,7 @@ class ProductLocalDataSource implements IProductLocalDataSource {
   }
   getCurrentEtag = async () => {
     try {
-      const result = await storage.getItemAsync(PRODUCT_LIST_ETAG);
-      return result;
+      return await storage.getItemAsync(PRODUCT_LIST_ETAG);
     } catch (error) {
       return "";
     }
@@ -44,6 +57,8 @@ class ProductLocalDataSource implements IProductLocalDataSource {
 }
 const SEARCH_HISTORY_ITEM_KEY = "SEARCH_HISTORY_ITEM_KEY";
 const PRODUCT_LIST_ETAG = "PRODUCT_LIST_ETAG";
+const CURRENT_LANG = "CURRENT_LANG";
 
-const productLocalDataSource = new ProductLocalDataSource();
+const productLocalDataSource: IProductLocalDataSource =
+  new ProductLocalDataSource();
 export { productLocalDataSource };
