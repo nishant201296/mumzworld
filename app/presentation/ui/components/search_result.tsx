@@ -29,13 +29,15 @@ export const SearchResult: React.FC<SearchResultProps> = ({
   return (
     <View style={styles.container}>
       <FlatList
-        // onViewableItemsChanged={({ viewableItems }) => {
-        //   const newViewedItemsIndices = viewableItems.map((item) => item.index);
-        //   setItemsViewed(
-        //     `${newViewedItemsIndices[newViewedItemsIndices.length - 1]}`
-        //   );
-        // }}
-        // viewabilityConfig={{ itemVisiblePercentThreshold: 50 }}
+        onViewableItemsChanged={({ viewableItems }) => {
+          const newViewedItemsIndices = viewableItems.map((item) => item.index);
+          let count = newViewedItemsIndices[newViewedItemsIndices.length - 1];
+          if (count) {
+            count++;
+            setItemsViewed(`${count}`);
+          }
+        }}
+        viewabilityConfig={{ itemVisiblePercentThreshold: 50 }}
         style={styles.list}
         showsVerticalScrollIndicator={false}
         numColumns={newNumColumns}
@@ -87,18 +89,29 @@ export const SearchResult: React.FC<SearchResultProps> = ({
           );
         }}
       />
-      <Text
-        style={{
-          position: "absolute",
-          start: 0,
-          top: 0,
-        }}
-      >{`Total items viewed ${itemsViewed}/${products.length}`}</Text>
+      <View style={styles.viewedItemsContainer}>
+        <Text
+          style={styles.viewedItemsText}
+        >{`Total items viewed ${itemsViewed}/${products.length}`}</Text>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  viewedItemsContainer: {
+    start: 0,
+    end: 0,
+    flexDirection: "row",
+    position: "absolute",
+    justifyContent: "center",
+  },
+  viewedItemsText: {
+    padding: 4,
+    color: Colors.white.color,
+    borderRadius: 8,
+    backgroundColor: "#00000080",
+  },
   discount: {
     alignSelf: "baseline",
     fontWeight: "bold",
