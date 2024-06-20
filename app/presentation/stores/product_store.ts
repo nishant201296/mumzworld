@@ -24,7 +24,7 @@ export class ProductStore {
           finalPrice:
             item.price_range.minimum_price.final_price.currency +
             " " +
-            item.price_range.minimum_price.final_price.value,
+            item.price_range.minimum_price.final_price.value.toFixed(2),
           isYalla: item.is_yalla.length > 0,
         };
         this.getDiscountValue(uiProduct, item.price_range.minimum_price);
@@ -37,8 +37,8 @@ export class ProductStore {
   getDiscountValue = (uiProduct: UIProduct, minimumPrice: ProductPrice) => {
     const percentOff = minimumPrice.discount?.percent_off;
     if (percentOff) {
-      uiProduct.discountPercent = percentOff;
-      uiProduct.basePrice = minimumPrice.regular_price?.value;
+      uiProduct.discountPercent = `-${Math.round(percentOff)}%`;
+      uiProduct.basePrice = minimumPrice.regular_price?.value.toFixed(2);
     }
   };
 
@@ -87,8 +87,8 @@ export interface UIProduct {
   id: number;
   imageUrl: string;
   productTitle: string;
-  discountPercent?: number;
-  basePrice?: number;
+  discountPercent?: string;
+  basePrice?: string;
   finalPrice: string;
   isYalla: boolean;
   tag?: ProductTag;

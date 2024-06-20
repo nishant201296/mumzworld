@@ -1,4 +1,11 @@
-import { View, StyleSheet, Text, FlatList, Image } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  FlatList,
+  Image,
+  ActivityIndicator,
+} from "react-native";
 import { ProductStore } from "../stores/product_store";
 import { observer } from "mobx-react-lite";
 import { SearchBar } from "./components/search_bar";
@@ -21,10 +28,14 @@ const SearchComponent: React.FC<{ store: ProductStore }> = observer(
             store.performKeywordSearch(searchText);
           }}
         />
-        <SearchResult
-          products={store.products}
-          onProductClick={(productId) => {}}
-        />
+        {store.products.length ? (
+          <SearchResult
+            products={store.products}
+            onProductClick={(productId) => {}}
+          />
+        ) : (
+          <ActivityIndicator />
+        )}
       </View>
     );
   }

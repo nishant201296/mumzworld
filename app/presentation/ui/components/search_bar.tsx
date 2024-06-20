@@ -66,6 +66,9 @@ export const SearchBar: React.FC<SearchBarProps> = ({
 
 const styles = StyleSheet.create({
   container: {
+    marginHorizontal: 10,
+    marginTop: 10,
+    marginBottom: 5,
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "#fff",
