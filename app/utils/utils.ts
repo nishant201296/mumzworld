@@ -11,7 +11,7 @@ export abstract class ApiResult<T> {
 }
 
 export class Success<T> extends ApiResult<T> {
-  constructor(public readonly data: T) {
+  constructor(public readonly data: T, public readonly headers: any) {
     super(ResultType.SUCCESS);
   }
 }

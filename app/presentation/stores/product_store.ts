@@ -26,6 +26,7 @@ export class ProductStore {
             " " +
             item.price_range.minimum_price.final_price.value.toFixed(2),
           isYalla: item.is_yalla.length > 0,
+          inStock: item.stock_status == "IN_STOCK",
         };
         this.getDiscountValue(uiProduct, item.price_range.minimum_price);
         this.getLabelValue(uiProduct, item.product_label);
@@ -92,6 +93,7 @@ export interface UIProduct {
   finalPrice: string;
   isYalla: boolean;
   tag?: ProductTag;
+  inStock: boolean;
 }
 
 export interface ProductTag {

@@ -1,15 +1,9 @@
-import {
-  View,
-  StyleSheet,
-  Text,
-  FlatList,
-  Image,
-  ActivityIndicator,
-} from "react-native";
+import { View, StyleSheet, ActivityIndicator, Alert } from "react-native";
 import { ProductStore } from "../stores/product_store";
 import { observer } from "mobx-react-lite";
 import { SearchBar } from "./components/search_bar";
 import { SearchResult } from "./components/search_result";
+import React from "react";
 
 export const Search = () => {
   const store = new ProductStore();
@@ -31,7 +25,18 @@ const SearchComponent: React.FC<{ store: ProductStore }> = observer(
         {store.products.length ? (
           <SearchResult
             products={store.products}
-            onProductClick={(productId) => {}}
+            onProductClick={(product) => {}}
+            onAddToCart={(product) => {
+              Alert.alert(
+                "Added",
+                `${product.productTitle} is added to the cart`,
+                [
+                  {
+                    text: "Done",
+                  },
+                ]
+              );
+            }}
           />
         ) : (
           <ActivityIndicator />

@@ -6,6 +6,7 @@ import {
   FlatList,
   Text,
   Dimensions,
+  Pressable,
 } from "react-native";
 import { UIProduct } from "../../stores/product_store";
 import { Colors } from "@/app/utils/styles";
@@ -13,7 +14,8 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 
 interface SearchResultProps {
   products: UIProduct[];
-  onProductClick: (productId: number) => void;
+  onProductClick: (productUIProduct: UIProduct) => void;
+  onAddToCart: (product: UIProduct) => void;
 }
 
 const { width } = Dimensions.get("window");
@@ -24,6 +26,7 @@ const itemHeight = (itemWidth * 7) / 5;
 export const SearchResult: React.FC<SearchResultProps> = ({
   products,
   onProductClick,
+  onAddToCart,
 }) => {
   const [itemsViewed, setItemsViewed] = useState("");
   return (
@@ -45,47 +48,64 @@ export const SearchResult: React.FC<SearchResultProps> = ({
         data={products}
         renderItem={({ item }) => {
           return (
-            <View style={styles.productContainer}>
-              <Image source={{ uri: item.imageUrl }} style={styles.image} />
-              {item.discountPercent && (
-                <Text style={styles.discount}>{item.discountPercent}</Text>
-              )}
-              <View style={styles.titleContainer}>
-                <Text
-                  style={styles.title}
-                  numberOfLines={2}
-                  ellipsizeMode="tail"
-                >
-                  {item.productTitle}
-                </Text>
-                <Ionicons
-                  name="cart-outline"
-                  size={25}
-                  style={styles.addToCart}
-                />
-              </View>
-
-              <View style={styles.priceContainer}>
-                <Text style={styles.finalPrice}>{item.finalPrice}</Text>
-                {item.basePrice && (
-                  <Text style={styles.basePrice}>{item.basePrice}</Text>
+            <Pressable
+              onPress={() => {
+                onProductClick(item);
+              }}
+            >
+              <View style={styles.productContainer}>
+                <Image source={{ uri: item.imageUrl }} style={styles.image} />
+                {item.discountPercent && (
+                  <Text style={styles.discount}>{item.discountPercent}</Text>
                 )}
-              </View>
-              <View style={styles.tagContainer}>
-                {item.isYalla && <Text style={styles.yalla}>{"Yalla"}</Text>}
-                {item.tag?.isActive && (
+                <View style={styles.titleContainer}>
                   <Text
-                    style={{
-                      ...styles.tag,
-                      backgroundColor: item.tag.textBgColor,
-                      color: item.tag.textColor,
+                    style={styles.title}
+                    numberOfLines={2}
+                    ellipsizeMode="tail"
+                  >
+                    {item.productTitle}
+                  </Text>
+                  <Pressable
+                    onPress={() => {
+                      onAddToCart(item);
                     }}
                   >
-                    {item.tag.text}
-                  </Text>
-                )}
+                    <Ionicons
+                      name="cart-outline"
+                      size={25}
+                      style={styles.addToCart}
+                    />
+                  </Pressable>
+                </View>
+
+                <View style={styles.priceContainer}>
+                  <Text style={styles.finalPrice}>{item.finalPrice}</Text>
+                  {item.basePrice && (
+                    <Text style={styles.basePrice}>{item.basePrice}</Text>
+                  )}
+                </View>
+                <View style={styles.tagContainer}>
+                  {!item.inStock && (
+                    <Text style={styles.outOfStock}>{"Out of stock"}</Text>
+                  )}
+                  {item.isYalla && item.inStock && (
+                    <Text style={styles.yalla}>{"Yalla"}</Text>
+                  )}
+                  {item.tag?.isActive && item.inStock && (
+                    <Text
+                      style={{
+                        ...styles.tag,
+                        backgroundColor: item.tag.textBgColor,
+                        color: item.tag.textColor,
+                      }}
+                    >
+                      {item.tag.text}
+                    </Text>
+                  )}
+                </View>
               </View>
-            </View>
+            </Pressable>
           );
         }}
       />
@@ -136,6 +156,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 6,
     borderRadius: 8,
     color: Colors.semantic_fg_text.color,
+    marginEnd: 16,
+  },
+  outOfStock: {
+    fontWeight: "bold",
+    backgroundColor: Colors.semantic_fg_accent.color,
+    paddingHorizontal: 6,
+    borderRadius: 8,
+    color: Colors.white.color,
     marginEnd: 16,
   },
   tagContainer: {
