@@ -1,8 +1,9 @@
-import { Slot, SplashScreen } from "expo-router";
+import { Slot, SplashScreen, Stack } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "./utils/styles";
+import { ScreenRoutes } from "./presentation/routes";
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
@@ -27,7 +28,21 @@ export default function RootLayout() {
 
   return (
     <SafeAreaView style={styles.appContainer}>
-      <Slot />
+      <Stack
+        screenOptions={{
+          headerShown: Platform.OS === "ios",
+        }}
+      >
+        {Object.entries(ScreenRoutes).map((route) => {
+          return (
+            <Stack.Screen
+              key={route[0]}
+              options={{ title: route[1].name }}
+              name={route[1].route}
+            />
+          );
+        })}
+      </Stack>
     </SafeAreaView>
   );
 }

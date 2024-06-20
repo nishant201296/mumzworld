@@ -2,7 +2,7 @@ import { productLocalDataSource } from "@/app/data/datasources/products_local_da
 import { productRemoteDataSource } from "@/app/data/datasources/products_remote_data_source";
 import { ProductLabel, ProductPrice } from "@/app/data/models/product_list";
 import { ApiResult } from "@/app/utils/utils";
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, runInAction } from "mobx";
 export class ProductStore {
   products: UIProduct[] = [];
   searchHistoryItems: string[] = [];
@@ -16,22 +16,25 @@ export class ProductStore {
       await productRemoteDataSource.getProductListLargeSet();
 
     if (ApiResult.isSuccess(productListLarge)) {
-      this.products = productListLarge.data.data.products.items.map((item) => {
-        const uiProduct: UIProduct = {
-          id: item.id,
-          imageUrl: item.small_image.url,
-          productTitle: item.name,
-          finalPrice:
-            item.price_range.minimum_price.final_price.currency +
-            " " +
-            item.price_range.minimum_price.final_price.value.toFixed(2),
-          isYalla: item.is_yalla.length > 0,
-          inStock: item.stock_status == "IN_STOCK",
-        };
-        this.getDiscountValue(uiProduct, item.price_range.minimum_price);
-        this.getLabelValue(uiProduct, item.product_label);
-        return uiProduct;
-      });
+      const productsToShow = productListLarge.data.data.products.items.map(
+        (item) => {
+          const uiProduct: UIProduct = {
+            id: item.id,
+            imageUrl: item.small_image.url,
+            productTitle: item.name,
+            finalPrice:
+              item.price_range.minimum_price.final_price.currency +
+              " " +
+              item.price_range.minimum_price.final_price.value.toFixed(2),
+            isYalla: item.is_yalla.length > 0,
+            inStock: item.stock_status == "IN_STOCK",
+          };
+          this.getDiscountValue(uiProduct, item.price_range.minimum_price);
+          this.getLabelValue(uiProduct, item.product_label);
+          return uiProduct;
+        }
+      );
+      this.setProducts(productsToShow);
     }
   };
 
@@ -66,8 +69,8 @@ export class ProductStore {
   };
 
   fetchSearchHistoryItems = async () => {
-    this.searchHistoryItems =
-      await productLocalDataSource.getSearchHistoryItems();
+    const items = await productLocalDataSource.getSearchHistoryItems();
+    this.setHistoryItems(items);
   };
 
   updateSearchHistoryItem = async (searchText: string) => {
@@ -76,11 +79,23 @@ export class ProductStore {
       ...this.searchHistoryItems.filter((item) => item !== searchText),
     ];
     await productLocalDataSource.updateSearchHistoryItems(updatedHistory);
-    this.searchHistoryItems = updatedHistory;
+    this.setHistoryItems(updatedHistory);
   };
 
   performKeywordSearch = (searchText: string) => {
     this.updateSearchHistoryItem(searchText);
+  };
+
+  setProducts = (productsToShow: UIProduct[]) => {
+    runInAction(() => {
+      this.products = productsToShow;
+    });
+  };
+
+  setHistoryItems = (historyItems: string[]) => {
+    runInAction(() => {
+      this.searchHistoryItems = historyItems;
+    });
   };
 }
 

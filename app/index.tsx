@@ -6,7 +6,7 @@ import { Brands } from "./presentation/ui/brands";
 import { Categories } from "./presentation/ui/categories";
 import { Search } from "./presentation/ui/search";
 import { Colors } from "./utils/styles";
-import { Routes } from "./presentation/routes";
+import { TabRoutes } from "./presentation/routes";
 
 const Tab = createBottomTabNavigator();
 
@@ -14,7 +14,7 @@ const Index = () => {
   return (
     <View style={styles.container}>
       <Tab.Navigator
-        initialRouteName={Routes.categories.name}
+        initialRouteName={TabRoutes.categories.name}
         screenOptions={({ route }) => ({
           headerShown: false,
           tabBarIcon: ({ focused, color, size }) => {
@@ -51,7 +51,7 @@ const Index = () => {
           },
         })}
       >
-        {Object.entries(Routes).map((entry) => {
+        {Object.entries(TabRoutes).map((entry) => {
           return (
             <Tab.Screen
               name={entry[1].name}

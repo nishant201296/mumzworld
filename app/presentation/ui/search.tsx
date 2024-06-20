@@ -4,6 +4,7 @@ import { observer } from "mobx-react-lite";
 import { SearchBar } from "./components/search_bar";
 import { SearchResult } from "./components/search_result";
 import React from "react";
+import { router } from "expo-router";
 
 export const Search = () => {
   const store = new ProductStore();
@@ -25,7 +26,9 @@ const SearchComponent: React.FC<{ store: ProductStore }> = observer(
         {store.products.length ? (
           <SearchResult
             products={store.products}
-            onProductClick={(product) => {}}
+            onProductClick={(product) => {
+              router.navigate("/product_detail");
+            }}
             onAddToCart={(product) => {
               Alert.alert(
                 "Added",
