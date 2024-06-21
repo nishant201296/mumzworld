@@ -17,8 +17,8 @@ class ProductRepository implements IProductRepository {
     const currentEtag = await productLocalDataSource.getCurrentEtag(
       SMALL_LIST_KEY
     );
-    const remoteEtag = head.headers.ETag;
-    if (remoteEtag == currentEtag) {
+    const remoteEtag = head.headers.etag.replace(/"/g, "");
+    if (remoteEtag === currentEtag) {
       const localData = await productLocalDataSource.getProductListSmall(
         remoteEtag
       );
@@ -39,8 +39,8 @@ class ProductRepository implements IProductRepository {
     const currentEtag = await productLocalDataSource.getCurrentEtag(
       LARGE_LIST_KEY
     );
-    const remoteEtag = head.headers.ETag;
-    if (remoteEtag == currentEtag) {
+    const remoteEtag = head.headers.etag.replace(/"/g, "");
+    if (remoteEtag === currentEtag) {
       const localData = await productLocalDataSource.getProductListLarge(
         remoteEtag
       );
@@ -58,7 +58,7 @@ class ProductRepository implements IProductRepository {
     if (ApiResult.isError(remoteData)) {
       return null;
     }
-    const newEtag = remoteData.headers.ETag;
+    const newEtag = remoteData.headers.etag.replace(/"/g, "");
     await productLocalDataSource.setProductListSmall(newEtag, remoteData.data);
     await productLocalDataSource.setCurrentEtag(SMALL_LIST_KEY, newEtag);
     return remoteData.data;
@@ -69,7 +69,7 @@ class ProductRepository implements IProductRepository {
     if (ApiResult.isError(remoteData)) {
       return null;
     }
-    const newEtag = remoteData.headers.ETag;
+    const newEtag = remoteData.headers.etag.replace(/"/g, "");
     await productLocalDataSource.setProductListLarge(newEtag, remoteData.data);
     await productLocalDataSource.setCurrentEtag(LARGE_LIST_KEY, newEtag);
     return remoteData.data;
