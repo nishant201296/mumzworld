@@ -1,7 +1,7 @@
 import { Brands } from "./ui/brands";
 import { Categories } from "./ui/categories";
 import { Search } from "./ui/search";
-import { Account } from "./ui/account";
+import { Language } from "./ui/language";
 
 export const TabRoutes = {
   categories: {
@@ -29,11 +29,11 @@ export const TabRoutes = {
     },
   },
   acount: {
-    name: "Account",
-    route: Account,
+    name: "Language",
+    route: Language,
     tabIcon: {
-      focused: "person-sharp",
-      unfocused: "person-outline",
+      focused: "language-sharp",
+      unfocused: "language-outline",
     },
   },
 };

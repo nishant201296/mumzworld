@@ -146,8 +146,13 @@ export interface SimpleProduct {
   weight: number;
   __typename: string;
   options: any | null;
+  baseUrl: string;
 }
 
 export interface ProductDetailDTO {
+  data: ProductDetails;
+}
+
+export interface ProductDetails {
   product: SimpleProduct[];
 }

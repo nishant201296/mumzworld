@@ -7,7 +7,7 @@ import { makeAutoObservable, runInAction } from "mobx";
 export class ProductStore {
   products: UIProduct[] = [];
   searchHistoryItems: string[] = [];
-  product: SimpleProduct[] = [];
+  product?: SimpleProduct = undefined;
 
   constructor() {
     makeAutoObservable(this);
@@ -15,15 +15,25 @@ export class ProductStore {
 
   fetchProduct = async (productId: string) => {
     //API should return product based on product {productId}
-    const product = await productRemoteDataSource.getProduct();
-    if (ApiResult.isSuccess(product)) {
-      this.setProduct(product.data.product);
+    const productDetails = await productRemoteDataSource.getProduct();
+    if (ApiResult.isSuccess(productDetails)) {
+      const lang = await productLocalDataSource.getCurrentLang();
+      const product = productDetails.data.data.product.find((item) => {
+        return item.language === lang;
+      });
+      product &&
+        (product.baseUrl =
+          "https://www.mumzworld.com/media/catalog/product/cache/8bf0fdee44d330ce9e3c910273b66bb2");
+      this.setProduct(product);
     }
   };
 
-  setProduct = (product: SimpleProduct[]) => {
-    this.product = product;
+  setProduct = (product?: SimpleProduct) => {
+    runInAction(() => {
+      this.product = product;
+    });
   };
+
   fetchProducts = async () => {
     const productListLarge =
       await productRemoteDataSource.getProductListLargeSet();

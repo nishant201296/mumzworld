@@ -20,13 +20,13 @@ import { RadioButton } from "react-native-paper";
 import { AccountStore } from "../stores/account_store";
 import * as Updates from "expo-updates";
 
-export const Account = () => {
+export const Language = () => {
   const store = new AccountStore();
   store.fetchCurrentLang();
-  return <AccountComponent store={store} />;
+  return <LanguageComponent store={store} />;
 };
 
-const AccountComponent: React.FC<{ store: AccountStore }> = observer(
+const LanguageComponent: React.FC<{ store: AccountStore }> = observer(
   ({ store }) => {
     const { t, i18n } = useTranslation();
 
