@@ -7,6 +7,7 @@ import {
   Text,
   Dimensions,
   Pressable,
+  ViewToken,
 } from "react-native";
 import { UIProduct } from "../../stores/product_store";
 import { Colors } from "@/app/utils/styles";
@@ -29,85 +30,102 @@ export const SearchResult: React.FC<SearchResultProps> = ({
   onAddToCart,
 }) => {
   const [itemsViewed, setItemsViewed] = useState("");
+
+  const keyExtractor = (item: UIProduct, index: number) =>
+    `${item.id}-${index}`;
+
+  const onViewableItemsChanged = ({
+    viewableItems,
+  }: {
+    viewableItems: ViewToken<UIProduct>[];
+  }) => {
+    const newViewedItemsIndices = viewableItems.map((item) => item.index);
+    let count = newViewedItemsIndices[newViewedItemsIndices.length - 1];
+    if (count) {
+      count++;
+      setItemsViewed(`${count}`);
+    }
+  };
+
+  const renderItem = ({ item }: { item: UIProduct }) => {
+    return (
+      <Pressable
+        onPress={() => {
+          onProductClick(item);
+        }}
+      >
+        <View style={styles.productContainer}>
+          <Image source={{ uri: item.imageUrl }} style={styles.image} />
+          {item.discountPercent && (
+            <Text style={styles.discount}>{item.discountPercent}</Text>
+          )}
+          <View style={styles.titleContainer}>
+            <Text style={styles.title} numberOfLines={2} ellipsizeMode="tail">
+              {item.productTitle}
+            </Text>
+            <Pressable
+              onPress={() => {
+                onAddToCart(item);
+              }}
+            >
+              <Ionicons
+                name="cart-outline"
+                size={25}
+                style={styles.addToCart}
+              />
+            </Pressable>
+          </View>
+
+          <View style={styles.priceContainer}>
+            <Text style={styles.finalPrice}>{item.finalPrice}</Text>
+            {item.basePrice && (
+              <Text style={styles.basePrice}>{item.basePrice}</Text>
+            )}
+          </View>
+          <View style={styles.tagContainer}>
+            {!item.inStock && (
+              <Text style={styles.outOfStock}>{"Out of stock"}</Text>
+            )}
+            {item.isYalla && item.inStock && (
+              <Text style={styles.yalla}>{"Yalla"}</Text>
+            )}
+            {item.tag?.isActive && item.inStock && (
+              <Text
+                style={{
+                  ...styles.tag,
+                  backgroundColor: item.tag.textBgColor,
+                  color: item.tag.textColor,
+                }}
+              >
+                {item.tag.text}
+              </Text>
+            )}
+          </View>
+        </View>
+      </Pressable>
+    );
+  };
+
   return (
     <View style={styles.container}>
       <FlatList
-        onViewableItemsChanged={({ viewableItems }) => {
-          const newViewedItemsIndices = viewableItems.map((item) => item.index);
-          let count = newViewedItemsIndices[newViewedItemsIndices.length - 1];
-          if (count) {
-            count++;
-            setItemsViewed(`${count}`);
-          }
-        }}
+        onViewableItemsChanged={onViewableItemsChanged}
         viewabilityConfig={{ itemVisiblePercentThreshold: 50 }}
         style={styles.list}
         showsVerticalScrollIndicator={false}
         numColumns={newNumColumns}
-        keyExtractor={(item, index) => `${item.id}-${index}`}
+        keyExtractor={keyExtractor}
         data={products}
-        renderItem={({ item }) => {
-          return (
-            <Pressable
-              onPress={() => {
-                onProductClick(item);
-              }}
-            >
-              <View style={styles.productContainer}>
-                <Image source={{ uri: item.imageUrl }} style={styles.image} />
-                {item.discountPercent && (
-                  <Text style={styles.discount}>{item.discountPercent}</Text>
-                )}
-                <View style={styles.titleContainer}>
-                  <Text
-                    style={styles.title}
-                    numberOfLines={2}
-                    ellipsizeMode="tail"
-                  >
-                    {item.productTitle}
-                  </Text>
-                  <Pressable
-                    onPress={() => {
-                      onAddToCart(item);
-                    }}
-                  >
-                    <Ionicons
-                      name="cart-outline"
-                      size={25}
-                      style={styles.addToCart}
-                    />
-                  </Pressable>
-                </View>
-
-                <View style={styles.priceContainer}>
-                  <Text style={styles.finalPrice}>{item.finalPrice}</Text>
-                  {item.basePrice && (
-                    <Text style={styles.basePrice}>{item.basePrice}</Text>
-                  )}
-                </View>
-                <View style={styles.tagContainer}>
-                  {!item.inStock && (
-                    <Text style={styles.outOfStock}>{"Out of stock"}</Text>
-                  )}
-                  {item.isYalla && item.inStock && (
-                    <Text style={styles.yalla}>{"Yalla"}</Text>
-                  )}
-                  {item.tag?.isActive && item.inStock && (
-                    <Text
-                      style={{
-                        ...styles.tag,
-                        backgroundColor: item.tag.textBgColor,
-                        color: item.tag.textColor,
-                      }}
-                    >
-                      {item.tag.text}
-                    </Text>
-                  )}
-                </View>
-              </View>
-            </Pressable>
-          );
-        }}
+        removeClippedSubviews={true}
+        maxToRenderPerBatch={10}
+        initialNumToRender={8}
+        windowSize={5}
+        getItemLayout={(data, index) => ({
+          length: itemHeight,
+          offset: itemHeight * index,
+          index,
+        })}
+        renderItem={renderItem}
       />
       <View style={styles.viewedItemsContainer}>
         <Text

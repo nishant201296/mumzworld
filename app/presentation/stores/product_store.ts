@@ -2,6 +2,7 @@ import { productLocalDataSource } from "@/app/data/datasources/products_local_da
 import { productRemoteDataSource } from "@/app/data/datasources/products_remote_data_source";
 import { SimpleProduct } from "@/app/data/models/product_detail";
 import { ProductLabel, ProductPrice } from "@/app/data/models/product_list";
+import productRepository from "@/app/data/repositoryimpl/product_repository_impl";
 import { ApiResult } from "@/app/utils/utils";
 import { makeAutoObservable, runInAction } from "mobx";
 export class ProductStore {
@@ -17,7 +18,10 @@ export class ProductStore {
     //API should return product based on product {productId}
     const productDetails = await productRemoteDataSource.getProduct();
     if (ApiResult.isSuccess(productDetails)) {
-      const lang = await productLocalDataSource.getCurrentLang();
+      let lang = await productLocalDataSource.getCurrentLang();
+      if (!lang) {
+        lang = "en";
+      }
       const product = productDetails.data.data.product.find((item) => {
         return item.language === lang;
       });
@@ -35,30 +39,28 @@ export class ProductStore {
   };
 
   fetchProducts = async () => {
-    const productListLarge =
-      await productRemoteDataSource.getProductListLargeSet();
-
-    if (ApiResult.isSuccess(productListLarge)) {
-      const productsToShow = productListLarge.data.data.products.items.map(
-        (item) => {
-          const uiProduct: UIProduct = {
-            id: item.id,
-            imageUrl: item.small_image.url,
-            productTitle: item.name,
-            finalPrice:
-              item.price_range.minimum_price.final_price.currency +
-              " " +
-              item.price_range.minimum_price.final_price.value.toFixed(2),
-            isYalla: item.is_yalla.length > 0,
-            inStock: item.stock_status == "IN_STOCK",
-          };
-          this.getDiscountValue(uiProduct, item.price_range.minimum_price);
-          this.getLabelValue(uiProduct, item.product_label);
-          return uiProduct;
-        }
-      );
-      this.setProducts(productsToShow);
+    const productListLarge = await productRepository.getProductListLarge();
+    if (!productListLarge) {
+      return;
     }
+
+    const productsToShow = productListLarge.data.products.items.map((item) => {
+      const uiProduct: UIProduct = {
+        id: item.id,
+        imageUrl: item.small_image.url,
+        productTitle: item.name,
+        finalPrice:
+          item.price_range.minimum_price.final_price.currency +
+          " " +
+          item.price_range.minimum_price.final_price.value.toFixed(2),
+        isYalla: item.is_yalla.length > 0,
+        inStock: item.stock_status == "IN_STOCK",
+      };
+      this.getDiscountValue(uiProduct, item.price_range.minimum_price);
+      this.getLabelValue(uiProduct, item.product_label);
+      return uiProduct;
+    });
+    this.setProducts(productsToShow);
   };
 
   getDiscountValue = (uiProduct: UIProduct, minimumPrice: ProductPrice) => {

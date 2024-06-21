@@ -113,7 +113,6 @@ const ProductDetailsComponent: React.FC<{ store: ProductStore }> = observer(
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.white.color,
     paddingTop: 10,
     alignItems: "center",
   },
