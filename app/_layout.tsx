@@ -6,7 +6,7 @@ import { Colors } from "./utils/styles";
 import { ScreenRoutes } from "./presentation/routes";
 import "../localization/i18n";
 import { configureI18 } from "../localization/i18n";
-import productStoreIns from "./presentation/stores/product_store";
+import productStoreShared from "./presentation/stores/product_store";
 SplashScreen.preventAutoHideAsync();
 configureI18();
 
@@ -15,7 +15,7 @@ export default function RootLayout() {
   useEffect(() => {
     async function prepare() {
       try {
-        await productStoreIns.fetchProducts();
+        await productStoreShared.fetchProducts();
       } catch (e) {
         console.warn(e);
       } finally {

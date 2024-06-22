@@ -130,7 +130,7 @@ export const ProductList: React.FC<ProductListProps> = ({
       <View style={styles.viewedItemsContainer}>
         <Text
           style={styles.viewedItemsText}
-        >{`Total items viewed ${itemsViewed}/${products.length}`}</Text>
+        >{`Viewing ${itemsViewed}/${products.length}`}</Text>
       </View>
     </View>
   );
@@ -139,6 +139,7 @@ export const ProductList: React.FC<ProductListProps> = ({
 const styles = StyleSheet.create({
   viewedItemsContainer: {
     start: 0,
+    marginTop: 20,
     end: 0,
     flexDirection: "row",
     position: "absolute",

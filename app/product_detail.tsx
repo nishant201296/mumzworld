@@ -5,16 +5,13 @@ import {
   StyleSheet,
   Dimensions,
   Image,
-  ActivityIndicator,
   Button,
   I18nManager,
   Platform,
   Pressable,
 } from "react-native";
 import { WebView } from "react-native-webview";
-import productStoreIns, {
-  ProductStore,
-} from "./presentation/stores/product_store";
+import { ProductStore } from "./presentation/stores/product_store";
 import { router, useLocalSearchParams } from "expo-router";
 import { useTranslation } from "react-i18next";
 import Carousel from "react-native-reanimated-carousel";
@@ -23,11 +20,13 @@ import { Colors } from "./utils/styles";
 import AnimatedDotsCarousel from "react-native-animated-dots-carousel";
 import { MediaGalleryEntry, SimpleProduct } from "./data/models/product_detail";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { ActivityIndicator } from "react-native-paper";
 
 const ProductDetails = () => {
   const { productId } = useLocalSearchParams();
-  productStoreIns.fetchProduct(productId as string);
-  return <ProductDetailsComponent store={productStoreIns} />;
+  const store = new ProductStore();
+  store.fetchProduct(productId as string);
+  return <ProductDetailsComponent store={store} />;
 };
 
 const ProductDetailsComponent: React.FC<{ store: ProductStore }> = observer(
@@ -75,13 +74,13 @@ const ProductDetailsComponent: React.FC<{ store: ProductStore }> = observer(
         {store.product ? (
           <View style={styles.container}>
             <View style={styles.actionBar}>
-              <Pressable
+              {/* <Pressable
                 onPress={() => {
                   router.back();
                 }}
               >
                 <Ionicons name="arrow-back" size={25} style={{}} />
-              </Pressable>
+              </Pressable> */}
               <View style={styles.titleContainer}>
                 <Text
                   numberOfLines={1}

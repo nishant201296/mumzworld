@@ -12,6 +12,8 @@ export class ProductStore {
   products: UIProduct[] = [];
   searchHistoryItems: string[] = [];
   product?: SimpleProduct = undefined;
+  categories: string[] = [];
+  brands: string[] = [];
 
   constructor() {
     makeAutoObservable(this);
@@ -60,6 +62,32 @@ export class ProductStore {
     this.setHistoryItems(items);
   };
 
+  fetchBrandList = async () => {
+    const brands = Object.keys(productRepository.getIndexes().byBrand).map(
+      (brandName) => brandName
+    );
+    this.setBrands(brands);
+  };
+
+  setBrands(brands: string[]) {
+    runInAction(() => {
+      this.brands = brands;
+    });
+  }
+
+  fetchCategoryList = async () => {
+    const categories = Object.keys(
+      productRepository.getIndexes().byCategory
+    ).map((categoryName) => categoryName);
+    this.setCategories(categories);
+  };
+
+  setCategories(categories: string[]) {
+    runInAction(() => {
+      this.categories = categories;
+    });
+  }
+
   updateSearchHistoryItem = async (searchText: string) => {
     let updatedHistory = [
       searchText,
@@ -76,7 +104,6 @@ export class ProductStore {
   };
 
   performKeywordSearch = async (searchText: string) => {
-    await this.updateSearchHistoryItem(searchText);
     const searchResult = searchProductsUseCase.searchProducts(searchText);
     const productsToShow = uiProductMapper.map(searchResult);
     this.setProductsToShow(productsToShow);
@@ -95,5 +122,5 @@ export class ProductStore {
   };
 }
 
-const productStoreIns = new ProductStore();
-export default productStoreIns;
+const productStoreShared = new ProductStore();
+export default productStoreShared;

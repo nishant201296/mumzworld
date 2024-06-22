@@ -41,7 +41,7 @@ const LanguageComponent: React.FC<{ store: AccountStore }> = observer(
         </Text>
         <View style={styles.row}>
           <Text style={styles.text}>{t("arabic")}</Text>
-          <RadioButton
+          <RadioButton.Android
             value="first"
             status={store.lang === "ar" ? "checked" : "unchecked"}
             onPress={() => {
@@ -51,7 +51,7 @@ const LanguageComponent: React.FC<{ store: AccountStore }> = observer(
         </View>
         <View style={styles.row}>
           <Text style={styles.text}>{t("english")}</Text>
-          <RadioButton
+          <RadioButton.Android
             value="second"
             status={store.lang === "en" ? "checked" : "unchecked"}
             onPress={() => {
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     paddingStart: 10,
     borderRadius: 8,
     elevation: 4,
-    width: 100,
+    width: 120,
     backgroundColor: Colors.semantic_bg_primary.color,
   },
   text: {

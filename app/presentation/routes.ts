@@ -40,6 +40,6 @@ export const TabRoutes = {
 
 export const ScreenRoutes = {
   home: { name: "Home", route: "index" },
-  searchResult: { name: "SearchResult", route: "search_result" },
-  productDetail: { name: "ProductDetail", route: "product_detail" },
+  searchResult: { name: "Result", route: "search_result" },
+  productDetail: { name: "Detail", route: "product_detail" },
 };

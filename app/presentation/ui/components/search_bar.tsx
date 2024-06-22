@@ -57,6 +57,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
           style={styles.input}
           placeholder={"What are you looking for"}
           value={searchText}
+          placeholderTextColor={Colors.semantic_fg_text_weak.color}
           onChangeText={setSearchText}
         />
         {searchText ? (
@@ -67,7 +68,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
             <Ionicons name="close" size={24} color="gray" />
           </TouchableOpacity>
         ) : null}
-        <TouchableOpacity onPress={handleSearch}>
+        <TouchableOpacity disabled={!searchText} onPress={handleSearch}>
           <Ionicons name="search" size={24} color="blue" />
         </TouchableOpacity>
       </View>
@@ -130,10 +131,10 @@ const styles = StyleSheet.create({
   },
   historyItem: {
     padding: 10,
-    flex: 1,
     color: Colors.semantic_fg_text_weak.color,
   },
   clearHistory: {
+    position: "absolute",
     paddingHorizontal: 10,
     color: Colors.semantic_fg_error.color,
   },
