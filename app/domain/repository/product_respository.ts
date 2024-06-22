@@ -6,4 +6,6 @@ export interface IProductRepository {
   getIndexes(): Index;
   getProductListLarge(): Promise<ProductListDTO | null>;
   getProductListSmall(): Promise<ProductListDTO | null>;
+  getCurrentLang(): Promise<string>;
+  setCurrentLang(lang: string): Promise<void>;
 }

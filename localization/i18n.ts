@@ -2,19 +2,16 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import en from "./en.json";
 import ar from "./ar.json";
-import { ProductStore } from "@/app/presentation/stores/product_store";
 import { AccountStore } from "@/app/presentation/stores/account_store";
+import { I18nManager } from "react-native";
+import * as Updates from "expo-updates";
 
 export const configureI18 = async () => {
   const store = new AccountStore();
-  await store.fetchCurrentLang();
-  let lang = store.lang;
-  if (!lang) {
-    lang = "en";
-    await store.setCurrentLang(lang);
-  }
+  const lang = await store.getCurrentLang();
+
   i18n.use(initReactI18next).init({
-    compatibilityJSON: "v3", // for expo
+    compatibilityJSON: "v3",
     resources: {
       en: { translation: en },
       ar: { translation: ar },
@@ -25,4 +22,11 @@ export const configureI18 = async () => {
       escapeValue: false,
     },
   });
+  const isRTL = lang === "ar";
+
+  if (I18nManager.isRTL !== isRTL) {
+    I18nManager.allowRTL(isRTL);
+    I18nManager.forceRTL(isRTL);
+    Updates.reloadAsync();
+  }
 };

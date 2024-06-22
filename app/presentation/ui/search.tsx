@@ -21,6 +21,15 @@ const SearchComponent: React.FC<{ store: ProductStore }> = observer(
       searchTextRef.current = searchText;
     };
 
+    const onTextChange = (searchText: string) => {
+      searchTextRef.current = searchText;
+      if (searchText) {
+        store.performKeywordSearch(searchText);
+      } else {
+        store.clearSearch();
+      }
+    };
+
     const onShowSearchResult = () => {
       router.push({
         pathname: "/search_result",
@@ -35,13 +44,17 @@ const SearchComponent: React.FC<{ store: ProductStore }> = observer(
         <SearchBar
           onClearHistory={store.clearSearchHistoryItem}
           historyItems={store.searchHistoryItems}
-          onSearch={onSearch}
+          onSearchClick={onSearch}
+          onTextChange={onTextChange}
         />
         {store.products.length > 0 && (
           <Pressable onPress={onShowSearchResult}>
-            <Text
-              style={{ backgroundColor: "red", textAlign: "center" }}
-            >{`Showing ${store.products.length} products`}</Text>
+            <View>
+              <Text
+                style={styles.searchResult}
+              >{`Found ${store.products.length} products`}</Text>
+              {<Text style={styles.searchResult}>{`Check now`}</Text>}
+            </View>
           </Pressable>
         )}
       </View>
@@ -52,5 +65,10 @@ const SearchComponent: React.FC<{ store: ProductStore }> = observer(
 const styles = StyleSheet.create({
   searchContainer: {
     flex: 1,
+  },
+  searchResult: {
+    margin: 20,
+    fontSize: 16,
+    textAlign: "center",
   },
 });

@@ -16,6 +16,28 @@ class ProductRepository implements IProductRepository {
     byCategory: {},
   };
 
+  supportedLangs = ["ar", "en"];
+  defaultLang = "en";
+
+  getCurrentLang = async (): Promise<string> => {
+    let lang = await productLocalDataSource.getCurrentLang();
+    if (!lang) {
+      lang = this.defaultLang;
+      await this.setCurrentLang(this.defaultLang);
+      return lang;
+    }
+    if (this.supportedLangs.includes(lang)) {
+      return lang;
+    } else {
+      await this.setCurrentLang(this.defaultLang);
+      return this.defaultLang;
+    }
+  };
+
+  setCurrentLang = async (lang: string): Promise<void> => {
+    await productLocalDataSource.setCurrentLang(lang);
+  };
+
   setIndexes = (indexes: Index): void => {
     this.indexes = indexes;
   };

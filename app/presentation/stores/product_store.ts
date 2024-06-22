@@ -109,6 +109,10 @@ export class ProductStore {
     this.setProductsToShow(productsToShow);
   };
 
+  clearSearch = () => {
+    this.setProductsToShow([]);
+  };
+
   setProductsToShow = (productsToShow: UIProduct[]) => {
     runInAction(() => {
       this.products = productsToShow;

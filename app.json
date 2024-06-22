@@ -16,7 +16,14 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.nishant.kaushik.mumzworld",
       "infoPlist": {
-        "CFBundleAllowMixedLocalizations": true
+        "UIViewAppearance": {
+          "semanticContentAttribute": "forceRightToLeft"
+        },
+        "UIViewAppearanceWhenContainedIn": {
+          "semanticContentAttribute": "forceRightToLeft"
+        },
+        "CFBundleAllowMixedLocalizations": true,
+        "UIViewSemanticContentAttribute": "UISemanticContentAttributeUnspecified"
       }
     },
     "locales": {
@@ -36,7 +43,6 @@
     },
     "plugins": [
       "expo-router",
-      "expo-localization",
       "expo-secure-store"
     ],
     "experiments": {

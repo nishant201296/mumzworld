@@ -9,32 +9,41 @@ import {
   TouchableOpacity,
   FlatList,
   Pressable,
+  Keyboard,
 } from "react-native";
 
 interface SearchBarProps {
   historyItems: string[];
-  onSearch: (searchText: string) => void;
+  onSearchClick: (searchText: string) => void;
+  onTextChange: (searchText: string) => void;
   onClearHistory: () => void;
 }
 
 export const SearchBar: React.FC<SearchBarProps> = ({
   historyItems,
-  onSearch,
+  onSearchClick,
+  onTextChange,
   onClearHistory,
 }) => {
   const [searchText, setSearchText] = useState("");
 
   const clearSearch = () => {
     setSearchText("");
+    onTextChange("");
   };
 
   const handleHistoryItemPress = (item: string) => {
     setSearchText(item);
-    onSearch(item);
+    onSearchClick(item);
   };
 
   const handleSearch = () => {
-    onSearch(searchText);
+    onSearchClick(searchText);
+  };
+
+  const onChangeText = (item: string) => {
+    setSearchText(item);
+    onTextChange(item);
   };
 
   const renderHistory = ({ item }: { item: string }) => (
@@ -58,7 +67,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
           placeholder={"What are you looking for"}
           value={searchText}
           placeholderTextColor={Colors.semantic_fg_text_weak.color}
-          onChangeText={setSearchText}
+          onChangeText={onChangeText}
         />
         {searchText ? (
           <TouchableOpacity

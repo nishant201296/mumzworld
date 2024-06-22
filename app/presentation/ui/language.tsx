@@ -17,15 +17,18 @@ const LanguageComponent: React.FC<{ store: AccountStore }> = observer(
   ({ store }) => {
     const { t, i18n } = useTranslation();
 
-    function changeLanguage(lang: string) {
-      i18n.changeLanguage(lang).then(async () => {
-        await store.setCurrentLang(lang);
-        const isRTL = lang === "ar";
-        I18nManager.allowRTL(isRTL);
-        I18nManager.forceRTL(isRTL);
+    const changeLanguage = async (lang: string) => {
+      const isRTL = lang === "ar";
+      I18nManager.allowRTL(isRTL);
+      I18nManager.forceRTL(isRTL);
+
+      await i18n.changeLanguage(lang);
+      await store.setCurrentLang(lang);
+
+      setTimeout(() => {
         Updates.reloadAsync();
-      });
-    }
+      }, 500);
+    };
 
     if (!store.lang) return <></>;
     return (
