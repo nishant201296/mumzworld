@@ -1,19 +1,6 @@
-import {
-  View,
-  StyleSheet,
-  ActivityIndicator,
-  Alert,
-  Text,
-  Button,
-  Pressable,
-  I18nManager,
-} from "react-native";
-import { ProductStore } from "../stores/product_store";
+import { View, StyleSheet, Text, I18nManager } from "react-native";
 import { observer } from "mobx-react-lite";
-import { SearchBar } from "./components/search_bar";
-import { SearchResult } from "./components/search_result";
 import React from "react";
-import { router } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { Colors } from "@/app/utils/styles";
 import { RadioButton } from "react-native-paper";

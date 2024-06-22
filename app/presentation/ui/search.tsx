@@ -1,16 +1,13 @@
-import { View, StyleSheet, ActivityIndicator, Alert } from "react-native";
-import { ProductStore } from "../stores/product_store";
+import { View, StyleSheet, Text, Pressable } from "react-native";
+import productStoreIns, { ProductStore } from "../stores/product_store";
 import { observer } from "mobx-react-lite";
 import { SearchBar } from "./components/search_bar";
-import { SearchResult } from "./components/search_result";
 import React from "react";
 import { router } from "expo-router";
 
 export const Search = () => {
-  const store = new ProductStore();
-  store.fetchProducts();
-  store.fetchSearchHistoryItems();
-  return <SearchComponent store={store} />;
+  productStoreIns.fetchSearchHistoryItems();
+  return <SearchComponent store={productStoreIns} />;
 };
 
 const SearchComponent: React.FC<{ store: ProductStore }> = observer(
@@ -18,34 +15,22 @@ const SearchComponent: React.FC<{ store: ProductStore }> = observer(
     return (
       <View style={styles.searchContainer}>
         <SearchBar
+          onClearHistory={store.clearSearchHistoryItem}
           historyItems={store.searchHistoryItems}
           onSearch={(searchText) => {
             store.performKeywordSearch(searchText);
           }}
         />
-        {store.products.length ? (
-          <SearchResult
-            products={store.products}
-            onProductClick={(product) => {
-              router.push({
-                pathname: "/product_detail",
-                params: { productId: product.id },
-              });
+        {store.products.length > 0 && (
+          <Pressable
+            onPress={() => {
+              router.push("/search_result");
             }}
-            onAddToCart={(product) => {
-              Alert.alert(
-                "Added",
-                `${product.productTitle} is added to the cart`,
-                [
-                  {
-                    text: "Done",
-                  },
-                ]
-              );
-            }}
-          />
-        ) : (
-          <ActivityIndicator />
+          >
+            <Text
+              style={{ backgroundColor: "red", textAlign: "center" }}
+            >{`Showing ${store.products.length} products`}</Text>
+          </Pressable>
         )}
       </View>
     );

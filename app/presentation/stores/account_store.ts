@@ -1,5 +1,5 @@
 import { productLocalDataSource } from "@/app/data/datasources/products_local_data_source";
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, runInAction } from "mobx";
 
 export class AccountStore {
   lang: string | null = "";
@@ -8,9 +8,17 @@ export class AccountStore {
   }
   setCurrentLang = async (lang: string) => {
     await productLocalDataSource.setCurrentLang(lang);
+    this.setLang(lang);
   };
 
   fetchCurrentLang = async () => {
-    this.lang = await productLocalDataSource.getCurrentLang();
+    const lang = await productLocalDataSource.getCurrentLang();
+    this.setLang(lang);
+  };
+
+  setLang = (lang: string | null) => {
+    runInAction(() => {
+      this.lang = lang;
+    });
   };
 }

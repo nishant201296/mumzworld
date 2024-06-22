@@ -12,7 +12,9 @@ import {
   Pressable,
 } from "react-native";
 import { WebView } from "react-native-webview";
-import { ProductStore } from "./presentation/stores/product_store";
+import productStoreIns, {
+  ProductStore,
+} from "./presentation/stores/product_store";
 import { router, useLocalSearchParams } from "expo-router";
 import { useTranslation } from "react-i18next";
 import Carousel from "react-native-reanimated-carousel";
@@ -24,9 +26,8 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 
 const ProductDetails = () => {
   const { productId } = useLocalSearchParams();
-  const store = new ProductStore();
-  store.fetchProduct(productId as string);
-  return <ProductDetailsComponent store={store} />;
+  productStoreIns.fetchProduct(productId as string);
+  return <ProductDetailsComponent store={productStoreIns} />;
 };
 
 const ProductDetailsComponent: React.FC<{ store: ProductStore }> = observer(

@@ -11,6 +11,7 @@ export const configureI18 = async () => {
   let lang = store.lang;
   if (!lang) {
     lang = "en";
+    await store.setCurrentLang(lang);
   }
   i18n.use(initReactI18next).init({
     compatibilityJSON: "v3", // for expo

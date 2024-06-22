@@ -7,8 +7,23 @@ import {
 import { productRemoteDataSource } from "../datasources/products_remote_data_source";
 import { ApiResult } from "@/app/utils/utils";
 import { ProductListDTO } from "../models/product_list";
+import { Index } from "@/app/domain/models/entities";
 
 class ProductRepository implements IProductRepository {
+  indexes: Index = {
+    products: {},
+    byBrand: {},
+    byCategory: {},
+  };
+
+  setIndexes = (indexes: Index): void => {
+    this.indexes = indexes;
+  };
+
+  getIndexes = (): Index => {
+    return this.indexes;
+  };
+
   async getProductListSmall(): Promise<ProductListDTO | null> {
     const head = await productRemoteDataSource.getProductListSmallHead();
     if (ApiResult.isError(head)) {

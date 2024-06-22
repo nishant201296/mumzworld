@@ -6,6 +6,7 @@ import { Colors } from "./utils/styles";
 import { ScreenRoutes } from "./presentation/routes";
 import "../localization/i18n";
 import { configureI18 } from "../localization/i18n";
+import productStoreIns from "./presentation/stores/product_store";
 SplashScreen.preventAutoHideAsync();
 configureI18();
 
@@ -14,7 +15,7 @@ export default function RootLayout() {
   useEffect(() => {
     async function prepare() {
       try {
-        await new Promise((resolve) => setTimeout(resolve, 250));
+        await productStoreIns.fetchProducts();
       } catch (e) {
         console.warn(e);
       } finally {
@@ -32,6 +33,7 @@ export default function RootLayout() {
   return (
     <SafeAreaView style={styles.appContainer}>
       <Stack
+        initialRouteName={ScreenRoutes.home.route}
         screenOptions={{
           headerShown: Platform.OS === "ios",
         }}

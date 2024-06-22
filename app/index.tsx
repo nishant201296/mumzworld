@@ -2,9 +2,6 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "@expo/vector-icons/build/Ionicons";
-import { Brands } from "./presentation/ui/brands";
-import { Categories } from "./presentation/ui/categories";
-import { Search } from "./presentation/ui/search";
 import { Colors } from "./utils/styles";
 import { TabRoutes } from "./presentation/routes";
 

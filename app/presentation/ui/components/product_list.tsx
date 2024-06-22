@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   View,
@@ -9,11 +9,11 @@ import {
   Pressable,
   ViewToken,
 } from "react-native";
-import { UIProduct } from "../../stores/product_store";
 import { Colors } from "@/app/utils/styles";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { UIProduct } from "../../models/view_entities";
 
-interface SearchResultProps {
+interface ProductListProps {
   products: UIProduct[];
   onProductClick: (productUIProduct: UIProduct) => void;
   onAddToCart: (product: UIProduct) => void;
@@ -24,7 +24,7 @@ const newNumColumns = width > 1200 ? 4 : width > 800 ? 3 : 2;
 const itemWidth = (width - 10) / newNumColumns;
 const itemHeight = (itemWidth * 7) / 5;
 
-export const SearchResult: React.FC<SearchResultProps> = ({
+export const ProductList: React.FC<ProductListProps> = ({
   products,
   onProductClick,
   onAddToCart,

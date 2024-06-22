@@ -1,3 +1,4 @@
+import { Colors } from "@/app/utils/styles";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import React, { useState } from "react";
 import {
@@ -7,16 +8,19 @@ import {
   Text,
   TouchableOpacity,
   FlatList,
+  Pressable,
 } from "react-native";
 
 interface SearchBarProps {
   historyItems: string[];
   onSearch: (searchText: string) => void;
+  onClearHistory: () => void;
 }
 
 export const SearchBar: React.FC<SearchBarProps> = ({
   historyItems,
   onSearch,
+  onClearHistory,
 }) => {
   const [searchText, setSearchText] = useState("");
 
@@ -33,6 +37,19 @@ export const SearchBar: React.FC<SearchBarProps> = ({
     onSearch(searchText);
   };
 
+  const renderHistory = ({ item }: { item: string }) => (
+    <TouchableOpacity onPress={() => handleHistoryItemPress(item)}>
+      <View style={styles.historyItemContainer}>
+        <Ionicons name="time-outline" size={20} />
+        <Text style={styles.historyItem}>{item}</Text>
+      </View>
+    </TouchableOpacity>
+  );
+
+  const keyExtractor = (item: string, index: number) => `${item}-${index}`;
+
+  const shouldShowClearHistory = () => historyItems.length > 0 && !searchText;
+
   return (
     <View>
       <View style={styles.container}>
@@ -43,7 +60,10 @@ export const SearchBar: React.FC<SearchBarProps> = ({
           onChangeText={setSearchText}
         />
         {searchText ? (
-          <TouchableOpacity onPress={clearSearch} style={styles.clearButton}>
+          <TouchableOpacity
+            onPress={clearSearch}
+            style={styles.clearSearchButton}
+          >
             <Ionicons name="close" size={24} color="gray" />
           </TouchableOpacity>
         ) : null}
@@ -51,15 +71,20 @@ export const SearchBar: React.FC<SearchBarProps> = ({
           <Ionicons name="search" size={24} color="blue" />
         </TouchableOpacity>
       </View>
-      <FlatList
-        data={historyItems}
-        keyExtractor={(item, index) => `${item}-${index}`}
-        renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => handleHistoryItemPress(item)}>
-            <Text style={styles.historyItem}>{item}</Text>
-          </TouchableOpacity>
-        )}
-      />
+      {!searchText && (
+        <FlatList
+          style={styles.historyContainer}
+          data={historyItems}
+          keyExtractor={keyExtractor}
+          renderItem={renderHistory}
+        />
+      )}
+
+      {shouldShowClearHistory() && (
+        <Pressable onPress={onClearHistory}>
+          <Text style={styles.clearHistory}>{`Clear history`}</Text>
+        </Pressable>
+      )}
     </View>
   );
 };
@@ -80,7 +105,17 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 2,
     borderWidth: 1,
-    borderColor: "#ddd", // Light grey border color
+    borderColor: "#ddd",
+  },
+  historyContainer: {
+    margin: 10,
+  },
+  historyItemContainer: {
+    flexDirection: "row",
+    flex: 1,
+    alignItems: "center",
+    borderBottomWidth: 1,
+    borderBottomColor: "#ddd",
   },
   input: {
     flex: 1,
@@ -90,12 +125,16 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#333",
   },
-  clearButton: {
+  clearSearchButton: {
     marginRight: 8,
   },
   historyItem: {
     padding: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "#ddd",
+    flex: 1,
+    color: Colors.semantic_fg_text_weak.color,
+  },
+  clearHistory: {
+    paddingHorizontal: 10,
+    color: Colors.semantic_fg_error.color,
   },
 });

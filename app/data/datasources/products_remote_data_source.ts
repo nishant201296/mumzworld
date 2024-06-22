@@ -1,5 +1,5 @@
 import { ApiResultType, Failure, Success } from "../../utils/utils";
-import { productApi } from "../services/api_service";
+import { productApi } from "../../domain/services/api_service";
 import { ProductListDTO } from "../models/product_list";
 import { ProductDetailDTO } from "../models/product_detail";
 
