@@ -4,6 +4,7 @@ import { observer } from "mobx-react-lite";
 import { Dimensions, FlatList, StyleSheet, Text, View } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
 import { Card } from "./card";
+import { capitalizeFirstLetter } from "@/app/utils/utils";
 
 const { width } = Dimensions.get("window");
 const newNumColumns = width > 1200 ? 6 : width > 800 ? 5 : 3;
@@ -48,7 +49,11 @@ export const CategoryBrandListComponent: React.FC<{
           index,
         })}
         renderItem={({ item }) => (
-          <Card title={item} onClick={onCardClick} style={styles.cardStyle} />
+          <Card
+            title={capitalizeFirstLetter(item)}
+            onClick={onCardClick}
+            style={styles.cardStyle}
+          />
         )}
       />
     </View>

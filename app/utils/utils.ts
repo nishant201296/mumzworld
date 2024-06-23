@@ -28,3 +28,10 @@ export enum ResultType {
 }
 
 export type ApiResultType<T> = Success<T> | Failure<T>;
+
+export const capitalizeFirstLetter = (str: string): string => {
+  if (str.length === 0) {
+    return str;
+  }
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};

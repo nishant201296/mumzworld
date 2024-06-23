@@ -42,4 +42,5 @@ export const ScreenRoutes = {
   home: { name: "Home", route: "index" },
   searchResult: { name: "Result", route: "search_result" },
   productDetail: { name: "Detail", route: "product_detail" },
+  gallery: { name: "Gallery", route: "gallery" },
 };

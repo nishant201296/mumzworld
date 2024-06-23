@@ -1,5 +1,5 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { Link, useLocalSearchParams } from "expo-router";
+import { Link, router, useLocalSearchParams } from "expo-router";
 import { t } from "i18next";
 import { observer } from "mobx-react-lite";
 import React, { useCallback, useEffect, useRef, useState } from "react";
@@ -26,6 +26,7 @@ import {
 import { ProductStore } from "./presentation/stores/product_store";
 import { BulletPoints } from "./presentation/ui/components/bullets";
 import { Colors } from "./utils/styles";
+import { ArrayData } from "react-native-photos-gallery";
 
 const ProductDetails = () => {
   const { productId } = useLocalSearchParams();
@@ -54,7 +55,19 @@ const ProductDetailsComponent: React.FC<{ store: ProductStore }> = observer(
       ({ item }: { item: MediaGalleryEntry }) => (
         <Pressable
           onPress={() => {
-            // open gallery
+            router.push({
+              pathname: "/gallery",
+              params: {
+                data: JSON.stringify(
+                  store.product?.media_gallery_entries.map((media) => {
+                    return {
+                      id: media.id,
+                      source: { uri: store.product?.baseUrl + media.file },
+                    } as ArrayData;
+                  }) ?? []
+                ),
+              },
+            });
           }}
         >
           <View>

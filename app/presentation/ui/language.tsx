@@ -69,7 +69,7 @@ const LanguageComponent: React.FC<{ store: AccountStore }> = observer(
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    paddingTop: 200,
     justifyContent: "center",
     alignItems: "center",
   },
