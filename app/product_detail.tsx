@@ -39,18 +39,6 @@ const ProductDetailsComponent: React.FC<{ store: ProductStore }> = observer(
   ({ store }) => {
     const width = Dimensions.get("window").width;
 
-    // const ActionBar = ({ name }: { name: string }) => {
-    //   return (
-    //     <View style={styles.actionBar}>
-    //       <View style={styles.titleContainer}>
-    //         <Text numberOfLines={1} ellipsizeMode="tail" style={styles.title}>
-    //           {name}
-    //         </Text>
-    //       </View>
-    //     </View>
-    //   );
-    // };
-
     const renderItem = useCallback(
       ({ item }: { item: MediaGalleryEntry }) => (
         <Pressable
@@ -181,7 +169,7 @@ const ProductDetailsComponent: React.FC<{ store: ProductStore }> = observer(
                   alignSelf: "baseline",
                   paddingBottom: 2,
                   borderRadius: 8,
-                  color: Colors.white.color,
+                  color: Colors.semantic_bg_white.color,
                   fontWeight: "bold",
                 }}
               >
@@ -257,17 +245,71 @@ const ProductDetailsComponent: React.FC<{ store: ProductStore }> = observer(
       );
     };
 
+    const onImageClick = ({}) => {
+      const data = JSON.stringify(
+        store.product?.media_gallery_entries.map((media) => {
+          return {
+            id: media.id,
+            source: {
+              uri: store.product?.baseUrl + media.file,
+            },
+          } as ArrayData;
+        }) ?? []
+      );
+      router.push({
+        pathname: "/gallery",
+        params: {
+          data: data,
+        },
+      });
+    };
+
+    const PrimaryImage = ({ product }: { product: SimpleProduct }) => {
+      return (
+        <Pressable onPress={onImageClick}>
+          <View
+            style={{
+              width: width,
+              height: width,
+            }}
+          >
+            <Image
+              width={width}
+              height={width}
+              resizeMode="contain"
+              source={{
+                uri: product?.baseUrl + product?.media_gallery_entries[0].file,
+              }}
+            />
+            {shouldShowYalla(store.product) && (
+              <Text style={styles.yalla}>{"Yalla"}</Text>
+            )}
+            {shouldShowReview(store.product) && (
+              <Text style={styles.review}>{
+                //mocking
+                `4.1★  9k`
+              }</Text>
+            )}
+          </View>
+        </Pressable>
+      );
+    };
+
     return (
-      <View>
+      <View style={styles.container}>
         <ScrollView
-          style={styles.container}
+          style={styles.scroller}
           contentContainerStyle={styles.scrollViewContentStyle}
         >
           <TouchableWithoutFeedback>
             <View>
-              {/* <ActionBar name={store.product.name} /> */}
-
-              <View style={{ flex: 1 }}>
+              <View
+                style={{ width: width, height: width, backgroundColor: "red" }}
+              >
+                <PrimaryImage />
+              </View>
+            </View>
+            {/* <View style={{ flex: 1 }}>
                 <FlatList
                   data={store.product.media_gallery_entries}
                   pagingEnabled
@@ -329,9 +371,9 @@ const ProductDetailsComponent: React.FC<{ store: ProductStore }> = observer(
                     />
                   </Pressable>
                 </View>
-              </View>
+              </View> */}
 
-              <View
+            {/* <View
                 style={{
                   height: 1,
                   backgroundColor: Colors.semantic_bg_muted.color,
@@ -384,10 +426,10 @@ const ProductDetailsComponent: React.FC<{ store: ProductStore }> = observer(
                 </View>
                 <ProductInfo />
               </View>
-            </View>
+            </View> */}
           </TouchableWithoutFeedback>
         </ScrollView>
-        <View
+        {/* <View
           style={{
             position: "absolute",
             bottom: 0,
@@ -405,7 +447,7 @@ const ProductDetailsComponent: React.FC<{ store: ProductStore }> = observer(
           >
             <Text
               style={{
-                color: Colors.white.color,
+                color: Colors.semantic_bg_white.color,
                 backgroundColor: Colors.semantic_fg_icon.color,
                 fontWeight: "bold",
                 margin: 8,
@@ -423,7 +465,7 @@ const ProductDetailsComponent: React.FC<{ store: ProductStore }> = observer(
               {t("add_to_cart_title")}
             </Text>
           </Pressable>
-        </View>
+        </View> */}
       </View>
     );
   }
@@ -437,17 +479,23 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     flex: 1,
   },
+
+  container: {
+    flex: 1,
+    backgroundColor: Colors.semantic_bg_white.color,
+  },
+  scroller: {
+    backgroundColor: Colors.semantic_bg_white.color,
+  },
   scrollViewContentStyle: {
     alignItems: "center",
+    flex: 1,
   },
-  container: {
-    paddingTop: 10,
-    backgroundColor: Colors.white.color,
-  },
+
   actionBar: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#fff",
+    backgroundColor: Colors.semantic_bg_white.color,
     elevation: 4,
     paddingVertical: 8,
     paddingHorizontal: 12,
@@ -470,7 +518,7 @@ const styles = StyleSheet.create({
   yalla: {
     fontWeight: "bold",
     fontStyle: "italic",
-    backgroundColor: "yellow",
+    backgroundColor: Colors.semantic_support_yellow.color,
     paddingHorizontal: 6,
     borderRadius: 8,
     color: Colors.semantic_fg_text.color,
@@ -486,7 +534,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 6,
     paddingVertical: 2,
     borderRadius: 8,
-    color: Colors.white.color,
+    color: Colors.semantic_bg_white.color,
     position: "absolute",
     marginEnd: 8,
     marginBottom: 8,
