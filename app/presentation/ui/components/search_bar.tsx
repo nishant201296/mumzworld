@@ -2,14 +2,13 @@ import { Colors } from "@/app/utils/styles";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import React, { useState } from "react";
 import {
-  TextInput,
-  StyleSheet,
-  View,
-  Text,
-  TouchableOpacity,
   FlatList,
   Pressable,
-  Keyboard,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 
 interface SearchBarProps {

@@ -1,31 +1,31 @@
-import React, { useState, useRef, useCallback, useEffect } from "react";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { Link, useLocalSearchParams } from "expo-router";
+import { t } from "i18next";
+import { observer } from "mobx-react-lite";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
-  View,
-  Text,
-  StyleSheet,
+  Alert,
   Dimensions,
+  FlatList,
+  I18nManager,
   Image,
   Pressable,
-  FlatList,
   ScrollView,
-  I18nManager,
+  StyleSheet,
+  Text,
   TouchableWithoutFeedback,
-  Alert,
+  View,
 } from "react-native";
-import { ProductStore } from "./presentation/stores/product_store";
-import { observer } from "mobx-react-lite";
-import { Colors } from "./utils/styles";
+import { ActivityIndicator } from "react-native-paper";
+import { WebView } from "react-native-webview";
 import {
   MediaGalleryEntry,
   ProductPrice,
   SimpleProduct,
 } from "./data/models/product_detail";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import { ActivityIndicator } from "react-native-paper";
-import { Link, useLocalSearchParams } from "expo-router";
-import { t } from "i18next";
+import { ProductStore } from "./presentation/stores/product_store";
 import { BulletPoints } from "./presentation/ui/components/bullets";
-import { WebView } from "react-native-webview";
+import { Colors } from "./utils/styles";
 
 const ProductDetails = () => {
   const { productId } = useLocalSearchParams();

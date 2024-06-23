@@ -1,16 +1,16 @@
-import React, { useState } from "react";
-import {
-  StyleSheet,
-  View,
-  Image,
-  FlatList,
-  Text,
-  Dimensions,
-  Pressable,
-  ViewToken,
-} from "react-native";
 import { Colors } from "@/app/utils/styles";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import React, { useState } from "react";
+import {
+  Dimensions,
+  FlatList,
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+  ViewToken,
+} from "react-native";
 import { UIProduct } from "../../models/view_entities";
 
 interface ProductListProps {

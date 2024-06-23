@@ -1,10 +1,10 @@
+import { AccountStore } from "@/app/presentation/stores/account_store";
+import * as Updates from "expo-updates";
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
-import en from "./en.json";
-import ar from "./ar.json";
-import { AccountStore } from "@/app/presentation/stores/account_store";
 import { I18nManager } from "react-native";
-import * as Updates from "expo-updates";
+import ar from "./ar.json";
+import en from "./en.json";
 
 export const configureI18 = async () => {
   const store = new AccountStore();

@@ -1,13 +1,13 @@
+import { Index } from "@/app/domain/models/entities";
 import { IProductRepository } from "@/app/domain/repository/product_respository";
+import { ApiResult } from "@/app/utils/utils";
 import {
   LARGE_LIST_KEY,
   SMALL_LIST_KEY,
   productLocalDataSource,
 } from "../datasources/products_local_data_source";
 import { productRemoteDataSource } from "../datasources/products_remote_data_source";
-import { ApiResult } from "@/app/utils/utils";
 import { ProductListDTO } from "../models/product_list";
-import { Index } from "@/app/domain/models/entities";
 
 class ProductRepository implements IProductRepository {
   indexes: Index = {

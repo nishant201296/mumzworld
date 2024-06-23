@@ -1,10 +1,9 @@
+import { Colors } from "@/app/utils/styles";
 import { router } from "expo-router";
 import { observer } from "mobx-react-lite";
-import { Dimensions, View, FlatList, Text, StyleSheet } from "react-native";
-import { ProductStore } from "../../stores/product_store";
-import { Card } from "./card";
-import { Colors } from "@/app/utils/styles";
+import { Dimensions, FlatList, StyleSheet, Text, View } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
+import { Card } from "./card";
 
 const { width } = Dimensions.get("window");
 const newNumColumns = width > 1200 ? 6 : width > 800 ? 5 : 3;

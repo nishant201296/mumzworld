@@ -1,4 +1,4 @@
-import { Slot, SplashScreen, Stack } from "expo-router";
+import { SplashScreen, Stack } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
   Keyboard,
@@ -7,11 +7,11 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Colors } from "./utils/styles";
-import { ScreenRoutes } from "./presentation/routes";
 import "../localization/i18n";
 import { configureI18 } from "../localization/i18n";
+import { ScreenRoutes } from "./presentation/routes";
 import productStoreShared from "./presentation/stores/product_store";
+import { Colors } from "./utils/styles";
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {

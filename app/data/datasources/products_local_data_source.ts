@@ -1,5 +1,5 @@
-import storage from "../../domain/services/persistent_storage_service";
 import fileService from "../../domain/services/file_service";
+import storage from "../../domain/services/persistent_storage_service";
 import { ProductListDTO } from "../models/product_list";
 
 export interface IProductLocalDataSource {

@@ -1,4 +1,4 @@
-import { Item, ProductListDTO } from "@/app/data/models/product_list";
+import { ProductListDTO } from "@/app/data/models/product_list";
 import { Index } from "../models/entities";
 
 class CreateIndexUseCase {

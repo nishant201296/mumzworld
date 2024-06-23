@@ -1,7 +1,7 @@
-import { ApiResultType, Failure, Success } from "../../utils/utils";
 import { productApi } from "../../domain/services/api_service";
-import { ProductListDTO } from "../models/product_list";
+import { ApiResultType, Failure, Success } from "../../utils/utils";
 import { ProductDetailDTO } from "../models/product_detail";
+import { ProductListDTO } from "../models/product_list";
 
 export interface IProductRemoteDataSource {
   getProductListSmallSet(): Promise<ApiResultType<ProductListDTO>>;

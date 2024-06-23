@@ -1,11 +1,11 @@
-import React from "react";
-import { View, StyleSheet, Alert, Text } from "react-native";
-import { ProductStore } from "./presentation/stores/product_store";
 import { router, useLocalSearchParams } from "expo-router";
 import { observer } from "mobx-react-lite";
+import React from "react";
+import { Alert, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator } from "react-native-paper";
+import { ProductStore } from "./presentation/stores/product_store";
 import { ProductList } from "./presentation/ui/components/product_list";
 import { Colors } from "./utils/styles";
-import { ActivityIndicator } from "react-native-paper";
 
 const SearchResult = () => {
   const { searchQuery } = useLocalSearchParams();

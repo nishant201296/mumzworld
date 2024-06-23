@@ -1,11 +1,11 @@
-import { View, StyleSheet, Text, I18nManager } from "react-native";
+import { Colors } from "@/app/utils/styles";
+import * as Updates from "expo-updates";
 import { observer } from "mobx-react-lite";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Colors } from "@/app/utils/styles";
+import { I18nManager, StyleSheet, Text, View } from "react-native";
 import { RadioButton } from "react-native-paper";
 import { AccountStore } from "../stores/account_store";
-import * as Updates from "expo-updates";
 
 export const Language = () => {
   const store = new AccountStore();

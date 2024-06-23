@@ -2,12 +2,12 @@ import { productLocalDataSource } from "@/app/data/datasources/products_local_da
 import { productRemoteDataSource } from "@/app/data/datasources/products_remote_data_source";
 import { SimpleProduct } from "@/app/data/models/product_detail";
 import productRepository from "@/app/data/repositoryimpl/product_repository_impl";
-import { ApiResult } from "@/app/utils/utils";
-import { makeAutoObservable, runInAction } from "mobx";
-import { UIProduct } from "../models/view_entities";
 import createIndexUseCase from "@/app/domain/usecases/create_index_usecase";
 import searchProductsUseCase from "@/app/domain/usecases/search_products_usecase";
+import { ApiResult } from "@/app/utils/utils";
+import { makeAutoObservable, runInAction } from "mobx";
 import uiProductMapper from "../mappers/ui_product_mapper";
+import { UIProduct } from "../models/view_entities";
 export class ProductStore {
   products: UIProduct[] = [];
   searchHistoryItems: string[] = [];

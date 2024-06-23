@@ -1,4 +1,3 @@
-import { Item } from "@/app/data/models/product_list";
 import productRepository from "@/app/data/repositoryimpl/product_repository_impl";
 
 class SearchProductsUseCase {

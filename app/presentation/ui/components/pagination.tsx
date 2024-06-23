@@ -1,6 +1,6 @@
-import { StyleSheet, Animated, View, Dimensions } from "react-native";
-import React from "react";
 import { Colors } from "@/app/utils/styles";
+import React from "react";
+import { Animated, Dimensions, StyleSheet, View } from "react-native";
 
 const { width } = Dimensions.get("screen");
 interface PaginationProps<T> {

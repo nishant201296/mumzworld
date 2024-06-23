@@ -1,7 +1,7 @@
-import { ProductStore } from "../stores/product_store";
-import React from "react";
-import { CategoryBrandListComponent } from "./components/category_brand_list";
 import { observer } from "mobx-react-lite";
+import React from "react";
+import { ProductStore } from "../stores/product_store";
+import { CategoryBrandListComponent } from "./components/category_brand_list";
 
 export const Brands = () => {
   const store = new ProductStore();

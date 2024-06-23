@@ -1,7 +1,7 @@
 import { Brands } from "./ui/brands";
 import { Categories } from "./ui/categories";
-import { Search } from "./ui/search";
 import { Language } from "./ui/language";
+import { Search } from "./ui/search";
 
 export const TabRoutes = {
   categories: {

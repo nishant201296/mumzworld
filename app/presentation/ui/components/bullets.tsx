@@ -1,6 +1,6 @@
 import { t } from "i18next";
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 interface BulletPointsProps {
   points: string[];
