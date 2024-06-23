@@ -245,71 +245,17 @@ const ProductDetailsComponent: React.FC<{ store: ProductStore }> = observer(
       );
     };
 
-    const onImageClick = ({}) => {
-      const data = JSON.stringify(
-        store.product?.media_gallery_entries.map((media) => {
-          return {
-            id: media.id,
-            source: {
-              uri: store.product?.baseUrl + media.file,
-            },
-          } as ArrayData;
-        }) ?? []
-      );
-      router.push({
-        pathname: "/gallery",
-        params: {
-          data: data,
-        },
-      });
-    };
-
-    const PrimaryImage = ({ product }: { product: SimpleProduct }) => {
-      return (
-        <Pressable onPress={onImageClick}>
-          <View
-            style={{
-              width: width,
-              height: width,
-            }}
-          >
-            <Image
-              width={width}
-              height={width}
-              resizeMode="contain"
-              source={{
-                uri: product?.baseUrl + product?.media_gallery_entries[0].file,
-              }}
-            />
-            {shouldShowYalla(store.product) && (
-              <Text style={styles.yalla}>{"Yalla"}</Text>
-            )}
-            {shouldShowReview(store.product) && (
-              <Text style={styles.review}>{
-                //mocking
-                `4.1★  9k`
-              }</Text>
-            )}
-          </View>
-        </Pressable>
-      );
-    };
-
     return (
-      <View style={styles.container}>
+      <View>
         <ScrollView
-          style={styles.scroller}
+          style={styles.container}
           contentContainerStyle={styles.scrollViewContentStyle}
         >
           <TouchableWithoutFeedback>
             <View>
-              <View
-                style={{ width: width, height: width, backgroundColor: "red" }}
-              >
-                <PrimaryImage />
-              </View>
-            </View>
-            {/* <View style={{ flex: 1 }}>
+              {/* <ActionBar name={store.product.name} /> */}
+
+              <View style={{ flex: 1 }}>
                 <FlatList
                   data={store.product.media_gallery_entries}
                   pagingEnabled
@@ -371,9 +317,9 @@ const ProductDetailsComponent: React.FC<{ store: ProductStore }> = observer(
                     />
                   </Pressable>
                 </View>
-              </View> */}
+              </View>
 
-            {/* <View
+              <View
                 style={{
                   height: 1,
                   backgroundColor: Colors.semantic_bg_muted.color,
@@ -426,10 +372,10 @@ const ProductDetailsComponent: React.FC<{ store: ProductStore }> = observer(
                 </View>
                 <ProductInfo />
               </View>
-            </View> */}
+            </View>
           </TouchableWithoutFeedback>
         </ScrollView>
-        {/* <View
+        <View
           style={{
             position: "absolute",
             bottom: 0,
@@ -465,7 +411,7 @@ const ProductDetailsComponent: React.FC<{ store: ProductStore }> = observer(
               {t("add_to_cart_title")}
             </Text>
           </Pressable>
-        </View> */}
+        </View>
       </View>
     );
   }
@@ -479,19 +425,13 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     flex: 1,
   },
-
-  container: {
-    flex: 1,
-    backgroundColor: Colors.semantic_bg_white.color,
-  },
-  scroller: {
-    backgroundColor: Colors.semantic_bg_white.color,
-  },
   scrollViewContentStyle: {
     alignItems: "center",
-    flex: 1,
   },
-
+  container: {
+    paddingTop: 10,
+    backgroundColor: Colors.semantic_bg_white.color,
+  },
   actionBar: {
     flexDirection: "row",
     alignItems: "center",
