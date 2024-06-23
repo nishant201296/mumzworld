@@ -26,7 +26,7 @@ const Index = () => {
           },
 
           tabBarActiveTintColor: Colors.semantic_fg_accent.color,
-          tabBarInactiveTintColor: "gray",
+          tabBarInactiveTintColor: Colors.semantic_fg_text_weak.color,
           tabBarStyle: {
             height: 60,
             elevation: 5,

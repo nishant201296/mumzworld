@@ -38,7 +38,9 @@ const LanguageComponent: React.FC<{ store: AccountStore }> = observer(
     };
 
     const getTextColorFor = (lang: string) => {
-      return store.lang === lang ? Colors.white.color : "black";
+      return store.lang === lang
+        ? Colors.semantic_bg_white.color
+        : Colors.black.color;
     };
 
     const getBGColorFor = (lang: string) => {
@@ -51,13 +53,7 @@ const LanguageComponent: React.FC<{ store: AccountStore }> = observer(
 
     return (
       <View style={styles.container}>
-        <Text
-          style={{
-            fontSize: 18,
-            fontWeight: "bold",
-            marginBottom: 20,
-          }}
-        >
+        <Text style={styles.languageChangeTitle}>
           {t("choose_your_language")}
         </Text>
 
@@ -108,6 +104,11 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
     alignItems: "center",
+  },
+  languageChangeTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 20,
   },
   language: {
     flexDirection: "row",

@@ -1,3 +1,4 @@
+import { Colors } from "@/app/utils/styles";
 import { t } from "i18next";
 import React, { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
@@ -23,9 +24,9 @@ export const BulletPoints = ({ points, initialCount }: BulletPointsProps) => {
           index === initialCount - 1 &&
           points.length > initialCount;
         return (
-          <View style={{ flexDirection: "row" }} key={point + index}>
-            <Text style={{ fontSize: 18, fontWeight: "bold" }}>• </Text>
-            <Text key={index} style={styles.bulletPoint}>
+          <View style={styles.bulletPointContainer} key={point + index}>
+            <Text style={styles.bulletPoint}>•</Text>
+            <Text key={index} style={styles.bulletPointText}>
               {isLastVisiblePoint ? `${point}...` : point}
             </Text>
           </View>
@@ -41,16 +42,24 @@ export const BulletPoints = ({ points, initialCount }: BulletPointsProps) => {
 };
 
 const styles = StyleSheet.create({
+  bulletPointContainer: {
+    flexDirection: "row",
+  },
+  bulletPoint: {
+    marginEnd: 6,
+    fontSize: 18,
+    fontWeight: "bold",
+  },
   container: {
     padding: 8,
   },
-  bulletPoint: {
+  bulletPointText: {
     fontSize: 12,
     marginVertical: 2,
     textAlignVertical: "center",
   },
   readMore: {
-    color: "blue",
+    color: Colors.semantic_fg_link.color,
     marginTop: 8,
     textDecorationLine: "underline",
   },

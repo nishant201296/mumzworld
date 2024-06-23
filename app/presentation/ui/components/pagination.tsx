@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     height: 12,
     borderRadius: 6,
     marginHorizontal: 3,
-    backgroundColor: "#ccc",
+    backgroundColor: Colors.semantic_bg_muted.color,
   },
   dotActive: {
     backgroundColor: Colors.semantic_fg_icon.color,

@@ -147,9 +147,9 @@ const styles = StyleSheet.create({
   },
   viewedItemsText: {
     padding: 4,
-    color: Colors.white.color,
+    color: Colors.semantic_bg_white.color,
     borderRadius: 8,
-    backgroundColor: "#00000080",
+    backgroundColor: Colors.transparent.color,
   },
   discount: {
     alignSelf: "baseline",
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.semantic_fg_accent.color,
     paddingHorizontal: 6,
     borderRadius: 8,
-    color: Colors.white.color,
+    color: Colors.semantic_bg_white.color,
     position: "absolute",
     start: 8,
     top: 8,
@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
   yalla: {
     fontWeight: "bold",
     fontStyle: "italic",
-    backgroundColor: "yellow",
+    backgroundColor: Colors.semantic_support_yellow.color,
     paddingHorizontal: 6,
     borderRadius: 8,
     color: Colors.semantic_fg_text.color,
@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.semantic_fg_accent.color,
     paddingHorizontal: 6,
     borderRadius: 8,
-    color: Colors.white.color,
+    color: Colors.semantic_bg_white.color,
     marginEnd: 16,
   },
   tagContainer: {
@@ -241,6 +241,6 @@ const styles = StyleSheet.create({
     margin: 1,
     borderRadius: 8,
     padding: 8,
-    backgroundColor: "white",
+    backgroundColor: Colors.semantic_bg_white.color,
   },
 });

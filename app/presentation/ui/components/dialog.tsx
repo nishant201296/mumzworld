@@ -1,3 +1,4 @@
+import { Colors } from "@/app/utils/styles";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import React from "react";
 import { Modal, Pressable, StyleSheet, View } from "react-native";
@@ -29,7 +30,7 @@ const DialogComponent = ({ visible, onClose, child }: DialogComponentProps) => {
 const styles = StyleSheet.create({
   backdrop: {
     flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    backgroundColor: Colors.transparent.color,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -46,11 +47,11 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   modalView: {
-    backgroundColor: "white",
+    backgroundColor: Colors.semantic_bg_white.color,
     borderRadius: 20,
     padding: 35,
     alignItems: "center",
-    shadowColor: "#000",
+    shadowColor: Colors.black.color,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -58,18 +59,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-  },
-  openButton: {
-    backgroundColor: "#F194FF",
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-    marginTop: 15,
-  },
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center",
   },
   modalText: {
     marginBottom: 15,

@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     margin: 1,
     borderRadius: 8,
     padding: 8,
-    backgroundColor: Colors.white.color,
+    backgroundColor: Colors.semantic_bg_white.color,
   },
   imgStyle: {
     width: "70%",

@@ -48,7 +48,7 @@ export default function RootLayout() {
                   title={title}
                   navigation={props.navigation}
                   showBackIcon={true}
-                  showHeader={routeName !== "index" && routeName !== "gallery"}
+                  showHeader={routeName !== "index"}
                 />
               );
             },
@@ -71,7 +71,7 @@ export default function RootLayout() {
 
 const styles = StyleSheet.create({
   appContainer: {
-    backgroundColor: Colors.white.color,
+    backgroundColor: Colors.semantic_bg_white.color,
     flex: 1,
   },
 });

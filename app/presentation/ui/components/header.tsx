@@ -74,9 +74,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     padding: 16,
-    backgroundColor: "white",
+    backgroundColor: Colors.semantic_bg_white.color,
     borderBottomWidth: 1,
-    borderBottomColor: "#ddd",
+    borderBottomColor: Colors.semantic_bg_muted.color,
   },
   backButton: {
     position: "absolute",
