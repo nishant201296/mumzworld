@@ -47,7 +47,7 @@ export default function RootLayout() {
                 <CustomHeader
                   title={title}
                   navigation={props.navigation}
-                  showBackIcon={false}
+                  showBackIcon={true}
                   showHeader={routeName !== "index" && routeName !== "gallery"}
                 />
               );

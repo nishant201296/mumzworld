@@ -3,8 +3,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { TabRoutes } from "./presentation/routes";
-import CustomHeader from "./presentation/ui/components/header";
 import { Colors } from "./utils/styles";
+import CustomHeader from "./presentation/ui/components/header";
 
 const Tab = createBottomTabNavigator();
 

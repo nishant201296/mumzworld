@@ -39,7 +39,11 @@ const CustomHeader = ({
           onPress={() => navigation.goBack()}
           style={styles.backButton}
         >
-          <Ionicons name="chevron-back" size={24} color="#007BFF" />
+          <Ionicons
+            name="chevron-back"
+            size={24}
+            color={Colors.semantic_fg_accent.color}
+          />
         </TouchableOpacity>
       )}
 

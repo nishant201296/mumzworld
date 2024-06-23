@@ -1,6 +1,6 @@
 import { Colors } from "@/app/utils/styles";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   Dimensions,
   FlatList,
@@ -167,6 +167,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 6,
     borderRadius: 8,
     fontSize: 12,
+    fontWeight: "500",
   },
   yalla: {
     fontWeight: "bold",
