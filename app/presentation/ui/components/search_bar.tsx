@@ -3,6 +3,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import React, { useState } from "react";
 import {
   FlatList,
+  I18nManager,
   Pressable,
   StyleSheet,
   Text,
@@ -62,6 +63,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
     <View>
       <View style={styles.container}>
         <TextInput
+          textAlign={I18nManager.isRTL ? "right" : "left"}
           style={styles.input}
           placeholder={"What are you looking for"}
           value={searchText}

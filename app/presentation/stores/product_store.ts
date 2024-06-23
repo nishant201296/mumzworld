@@ -3,17 +3,34 @@ import { productRemoteDataSource } from "@/app/data/datasources/products_remote_
 import { SimpleProduct } from "@/app/data/models/product_detail";
 import productRepository from "@/app/data/repositoryimpl/product_repository_impl";
 import createIndexUseCase from "@/app/domain/usecases/create_index_usecase";
-import searchProductsUseCase from "@/app/domain/usecases/search_products_usecase";
+import {
+  searchProductsUseCase,
+  searchProductsUseCaseV2,
+} from "@/app/domain/usecases/search_products_usecase";
 import { ApiResult } from "@/app/utils/utils";
 import { makeAutoObservable, runInAction } from "mobx";
-import uiProductMapper from "../mappers/ui_product_mapper";
-import { Brand, Category, UIProduct } from "../models/view_entities";
+import {
+  uiProductMapper,
+  searchResultMapper,
+} from "../mappers/ui_product_mapper";
+import {
+  Brand,
+  Category,
+  UIProduct,
+  UISearchResult,
+} from "../models/view_entities";
+import { SearchResultV2 } from "@/app/domain/models/entities";
 export class ProductStore {
   products: UIProduct[] = [];
   searchHistoryItems: string[] = [];
   product?: SimpleProduct = undefined;
   categories: Category[] = [];
   brands: Brand[] = [];
+  searchResultV2: UISearchResult = {
+    brandNames: [],
+    categoryNames: [],
+    totalProducts: 0,
+  };
 
   constructor() {
     makeAutoObservable(this);
@@ -121,13 +138,30 @@ export class ProductStore {
     this.setProductsToShow(productsToShow);
   };
 
+  performKeywordSearchV2 = async (searchText: string) => {
+    const searchResult = searchProductsUseCaseV2.searchProducts(searchText);
+    const uiSearchResult = searchResultMapper.map(searchResult);
+    this.setProductsV2ToShow(uiSearchResult);
+  };
+
   clearSearch = () => {
     this.setProductsToShow([]);
+    this.setProductsV2ToShow({
+      brandNames: [],
+      categoryNames: [],
+      totalProducts: 0,
+    });
   };
 
   setProductsToShow = (productsToShow: UIProduct[]) => {
     runInAction(() => {
       this.products = productsToShow;
+    });
+  };
+
+  setProductsV2ToShow = (searchResult: UISearchResult) => {
+    runInAction(() => {
+      this.searchResultV2 = searchResult;
     });
   };
 

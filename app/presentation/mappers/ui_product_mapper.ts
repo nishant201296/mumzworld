@@ -3,7 +3,8 @@ import {
   ProductLabel,
   ProductPrice,
 } from "@/app/data/models/product_list";
-import { UIProduct } from "../models/view_entities";
+import { UIProduct, UISearchResult } from "../models/view_entities";
+import { SearchResultV2 } from "@/app/domain/models/entities";
 
 class UiProductMapper {
   map = (items: Item[]) => {
@@ -55,5 +56,20 @@ class UiProductMapper {
   };
 }
 
+class SearchResultMapper {
+  map = (result: SearchResultV2): UISearchResult => {
+    const uISearchResult: UISearchResult = {
+      brandNames: Object.keys(result.brandsMatched)
+        .slice(0, 3) // limited to three
+        .map((key) => key),
+      categoryNames: Object.keys(result.categoryMatched)
+        .slice(0, 3) // limited to three
+        .map((key) => key),
+      totalProducts: result.totalProductCount,
+    };
+    return uISearchResult;
+  };
+}
+const searchResultMapper = new SearchResultMapper();
 const uiProductMapper = new UiProductMapper();
-export default uiProductMapper;
+export { searchResultMapper, uiProductMapper };

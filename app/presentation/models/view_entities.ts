@@ -26,3 +26,9 @@ export interface Category {
   name: string;
   imgUrl: string;
 }
+
+export interface UISearchResult {
+  brandNames: string[];
+  categoryNames: string[];
+  totalProducts: number;
+}

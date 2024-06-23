@@ -29,7 +29,7 @@ export const ProductList: React.FC<ProductListProps> = ({
   onProductClick,
   onAddToCart,
 }) => {
-  const [itemsViewed, setItemsViewed] = useState("");
+  const [itemsViewed, setItemsViewed] = useState("0");
 
   const keyExtractor = (item: UIProduct, index: number) =>
     `${item.id}-${index}`;
@@ -127,11 +127,15 @@ export const ProductList: React.FC<ProductListProps> = ({
         })}
         renderItem={renderItem}
       />
-      <View style={styles.viewedItemsContainer}>
-        <Text
-          style={styles.viewedItemsText}
-        >{`Viewing ${itemsViewed}/${products.length}`}</Text>
-      </View>
+      {parseInt(itemsViewed) ? (
+        <View style={styles.viewedItemsContainer}>
+          <Text
+            style={styles.viewedItemsText}
+          >{`Viewing ${itemsViewed}/${products.length}`}</Text>
+        </View>
+      ) : (
+        <></>
+      )}
     </View>
   );
 };
@@ -146,9 +150,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   viewedItemsText: {
-    padding: 4,
+    padding: 6,
+    overflow: "hidden",
     color: Colors.semantic_bg_white.color,
-    borderRadius: 8,
+    borderRadius: 15,
     backgroundColor: Colors.transparent.color,
   },
   discount: {
@@ -157,6 +162,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.semantic_fg_accent.color,
     paddingHorizontal: 6,
     borderRadius: 8,
+    overflow: "hidden",
     color: Colors.semantic_bg_white.color,
     position: "absolute",
     start: 8,
@@ -166,6 +172,7 @@ const styles = StyleSheet.create({
   tag: {
     paddingHorizontal: 6,
     borderRadius: 8,
+    overflow: "hidden",
     fontSize: 12,
     fontWeight: "500",
   },
@@ -177,12 +184,14 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     color: Colors.semantic_fg_text.color,
     marginEnd: 16,
+    overflow: "hidden",
   },
   outOfStock: {
     fontWeight: "bold",
     backgroundColor: Colors.semantic_fg_accent.color,
     paddingHorizontal: 6,
     borderRadius: 8,
+    overflow: "hidden",
     color: Colors.semantic_bg_white.color,
     marginEnd: 16,
   },
@@ -226,6 +235,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 150,
     borderRadius: 8,
+    overflow: "hidden",
     resizeMode: "contain",
   },
   container: {
@@ -240,6 +250,7 @@ const styles = StyleSheet.create({
     height: itemHeight,
     margin: 1,
     borderRadius: 8,
+    overflow: "hidden",
     padding: 8,
     backgroundColor: Colors.semantic_bg_white.color,
   },

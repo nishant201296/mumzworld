@@ -1,10 +1,17 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { NavigationProp, ParamListBase } from "@react-navigation/native";
 import React, { useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  I18nManager,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import DialogComponent from "./dialog";
 import { Language } from "../language";
 import { Colors } from "@/app/utils/styles";
+import { capitalizeFirstLetter } from "@/app/utils/utils";
 
 interface CustomHeaderProps {
   title: string;
@@ -40,7 +47,7 @@ const CustomHeader = ({
           style={styles.backButton}
         >
           <Ionicons
-            name="chevron-back"
+            name={I18nManager.isRTL ? "chevron-forward" : "chevron-back"}
             size={24}
             color={Colors.semantic_fg_accent.color}
           />
@@ -49,7 +56,7 @@ const CustomHeader = ({
 
       <View style={styles.titleContainer}>
         <Text style={styles.title} numberOfLines={1}>
-          {title}
+          {capitalizeFirstLetter(title)}
         </Text>
       </View>
       <TouchableOpacity onPress={openDialog} style={styles.languageButton}>
