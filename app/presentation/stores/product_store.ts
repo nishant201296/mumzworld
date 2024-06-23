@@ -7,13 +7,13 @@ import searchProductsUseCase from "@/app/domain/usecases/search_products_usecase
 import { ApiResult } from "@/app/utils/utils";
 import { makeAutoObservable, runInAction } from "mobx";
 import uiProductMapper from "../mappers/ui_product_mapper";
-import { UIProduct } from "../models/view_entities";
+import { Brand, Category, UIProduct } from "../models/view_entities";
 export class ProductStore {
   products: UIProduct[] = [];
   searchHistoryItems: string[] = [];
   product?: SimpleProduct = undefined;
-  categories: string[] = [];
-  brands: string[] = [];
+  categories: Category[] = [];
+  brands: Brand[] = [];
 
   constructor() {
     makeAutoObservable(this);
@@ -63,26 +63,38 @@ export class ProductStore {
   };
 
   fetchBrandList = async () => {
-    const brands = Object.keys(productRepository.getIndexes().byBrand).map(
-      (brandName) => brandName
-    );
+    const brandList = productRepository.getIndexes().byBrand;
+    const brands: Brand[] = Object.keys(brandList).map((name) => {
+      return {
+        name,
+        imgUrl:
+          productRepository.getIndexes().products[brandList[name][0]]
+            .small_image.url,
+      };
+    });
     this.setBrands(brands);
   };
 
-  setBrands(brands: string[]) {
+  setBrands(brands: Brand[]) {
     runInAction(() => {
       this.brands = brands;
     });
   }
 
   fetchCategoryList = async () => {
-    const categories = Object.keys(
-      productRepository.getIndexes().byCategory
-    ).map((categoryName) => categoryName);
+    const categoryList = productRepository.getIndexes().byCategory;
+    const categories: Category[] = Object.keys(categoryList).map((name) => {
+      return {
+        name,
+        imgUrl:
+          productRepository.getIndexes().products[categoryList[name][0]]
+            .small_image.url,
+      };
+    });
     this.setCategories(categories);
   };
 
-  setCategories(categories: string[]) {
+  setCategories(categories: Category[]) {
     runInAction(() => {
       this.categories = categories;
     });

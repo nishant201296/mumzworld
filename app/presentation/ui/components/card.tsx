@@ -5,6 +5,7 @@ import {
   StyleProp,
   StyleSheet,
   Text,
+  Image,
   View,
   ViewStyle,
 } from "react-native";
@@ -12,8 +13,9 @@ interface CardProps {
   title: string;
   onClick: (cardTitle: string) => void;
   style: StyleProp<ViewStyle> | undefined;
+  imgUrl: string;
 }
-export const Card = ({ title, onClick, style }: CardProps) => {
+export const Card = ({ title, onClick, style, imgUrl }: CardProps) => {
   const onCardClick = () => {
     onClick(title);
   };
@@ -21,6 +23,11 @@ export const Card = ({ title, onClick, style }: CardProps) => {
   return (
     <Pressable onPress={onCardClick}>
       <View style={[styles.container, style]}>
+        <Image
+          resizeMode="contain"
+          source={{ uri: imgUrl }}
+          style={styles.imgStyle}
+        />
         <Text style={styles.title} numberOfLines={2} ellipsizeMode="tail">
           {title}
         </Text>
@@ -38,6 +45,10 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 8,
     backgroundColor: Colors.white.color,
+  },
+  imgStyle: {
+    width: "70%",
+    height: "70%",
   },
   title: {
     fontSize: 14,

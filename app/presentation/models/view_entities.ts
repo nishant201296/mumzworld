@@ -16,3 +16,13 @@ export interface ProductTag {
   text: string;
   isActive: Boolean;
 }
+
+export interface Brand {
+  name: string;
+  imgUrl: string;
+}
+
+export interface Category {
+  name: string;
+  imgUrl: string;
+}

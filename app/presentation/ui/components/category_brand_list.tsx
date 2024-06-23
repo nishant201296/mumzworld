@@ -5,6 +5,7 @@ import { Dimensions, FlatList, StyleSheet, Text, View } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
 import { Card } from "./card";
 import { capitalizeFirstLetter } from "@/app/utils/utils";
+import { Brand, Category } from "../../models/view_entities";
 
 const { width } = Dimensions.get("window");
 const newNumColumns = width > 1200 ? 6 : width > 800 ? 5 : 3;
@@ -12,13 +13,14 @@ const itemWidth = (width - 10) / newNumColumns;
 const itemHeight = itemWidth;
 
 export const CategoryBrandListComponent: React.FC<{
-  data: string[];
+  data: Category[] | Brand[];
 }> = observer(({ data }) => {
   if (!data.length) {
     return <ActivityIndicator style={{ flex: 1 }} />;
   }
 
-  const keyExtractor = (item: string, index: number) => `${item}-${index}`;
+  const keyExtractor = (item: Category | Brand, index: number) =>
+    `${item}-${index}`;
 
   const onCardClick = (title: string) => {
     router.push({
@@ -43,13 +45,14 @@ export const CategoryBrandListComponent: React.FC<{
         numColumns={newNumColumns}
         removeClippedSubviews={true}
         getItemLayout={(_, index) => ({
-          length: itemHeight - 20,
+          length: itemHeight - 10,
           offset: itemHeight * index,
           index,
         })}
         renderItem={({ item }) => (
           <Card
-            title={capitalizeFirstLetter(item)}
+            imgUrl={item.imgUrl}
+            title={capitalizeFirstLetter(item.name)}
             onClick={onCardClick}
             style={styles.cardStyle}
           />
@@ -61,9 +64,9 @@ export const CategoryBrandListComponent: React.FC<{
 
 const styles = StyleSheet.create({
   cardStyle: {
-    height: itemHeight - 20,
-    width: itemWidth - 20,
-    margin: 10,
+    height: itemHeight - 10,
+    width: itemWidth - 10,
+    margin: 5,
   },
   container: {
     flex: 1,
