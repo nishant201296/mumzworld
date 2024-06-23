@@ -1,9 +1,9 @@
-import { View, StyleSheet, Text, Pressable } from "react-native";
-import { ProductStore } from "../stores/product_store";
-import { observer } from "mobx-react-lite";
-import { SearchBar } from "./components/search_bar";
-import React, { useRef } from "react";
 import { router } from "expo-router";
+import { observer } from "mobx-react-lite";
+import React, { useRef } from "react";
+import { Pressable, StyleSheet, Text, View } from "react-native";
+import { ProductStore } from "../stores/product_store";
+import { SearchBar } from "./components/search_bar";
 
 export const Search = () => {
   const store = new ProductStore();

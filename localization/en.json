@@ -4,6 +4,16 @@
     "choose_your_language":"Choose your language",
     "arabic":"عربي",
     "english":"English",
-    "view_more":"View More"
+    "vat":"Including VAT",
+    "explore_brand":"Explore Brand",
+    "product_details_title":"Product details",
+    "feature_title":"Features",
+    "description_title":"Description",
+    "read_less":"Read less",
+    "read_more":"Read more",
+    "add_to_cart_title":"Add to cart",
+    "added_title":"Added",
+    "added_desc":"Product has been added your cart",
+    "added_done":"Done"
   }
   
