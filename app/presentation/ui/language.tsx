@@ -3,8 +3,7 @@ import * as Updates from "expo-updates";
 import { observer } from "mobx-react-lite";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { I18nManager, StyleSheet, Text, View } from "react-native";
-import { RadioButton } from "react-native-paper";
+import { I18nManager, Pressable, StyleSheet, Text, View } from "react-native";
 import { AccountStore } from "../stores/account_store";
 
 export const Language = () => {
@@ -27,41 +26,79 @@ const LanguageComponent: React.FC<{ store: AccountStore }> = observer(
 
       setTimeout(() => {
         Updates.reloadAsync();
-      }, 500);
+      }, 100);
+    };
+
+    const changeToEnglish = () => {
+      store.lang === "ar" && changeLanguage("en");
+    };
+
+    const changeToArabic = () => {
+      store.lang === "en" && changeLanguage("ar");
+    };
+
+    const getTextColorFor = (lang: string) => {
+      return store.lang === lang ? Colors.white.color : "black";
+    };
+
+    const getBGColorFor = (lang: string) => {
+      return store.lang === lang
+        ? Colors.semantic_fg_accent.color
+        : Colors.semantic_bg_muted.color;
     };
 
     if (!store.lang) return <></>;
+
     return (
       <View style={styles.container}>
         <Text
           style={{
             fontSize: 18,
             fontWeight: "bold",
-            marginBottom: 10,
+            marginBottom: 20,
           }}
         >
           {t("choose_your_language")}
         </Text>
-        <View style={styles.row}>
-          <Text style={styles.text}>{t("arabic")}</Text>
-          <RadioButton.Android
-            value="first"
-            status={store.lang === "ar" ? "checked" : "unchecked"}
-            onPress={() => {
-              store.lang === "en" && changeLanguage("ar");
-            }}
-          />
-        </View>
-        <View style={styles.row}>
-          <Text style={styles.text}>{t("english")}</Text>
-          <RadioButton.Android
-            value="second"
-            status={store.lang === "en" ? "checked" : "unchecked"}
-            onPress={() => {
-              store.lang === "ar" && changeLanguage("en");
-            }}
-          />
-        </View>
+
+        <Pressable onPress={changeToEnglish}>
+          <View
+            style={[
+              styles.language,
+              {
+                backgroundColor: getBGColorFor("en"),
+              },
+            ]}
+          >
+            <Text
+              style={[
+                styles.text,
+                {
+                  color: getTextColorFor("en"),
+                },
+              ]}
+            >{`${t("english")}`}</Text>
+          </View>
+        </Pressable>
+        <Pressable onPress={changeToArabic}>
+          <View
+            style={[
+              styles.language,
+              {
+                backgroundColor: getBGColorFor("ar"),
+              },
+            ]}
+          >
+            <Text
+              style={[
+                styles.text,
+                {
+                  color: getTextColorFor("ar"),
+                },
+              ]}
+            >{`${t("arabic")}`}</Text>
+          </View>
+        </Pressable>
       </View>
     );
   }
@@ -69,22 +106,21 @@ const LanguageComponent: React.FC<{ store: AccountStore }> = observer(
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 200,
     justifyContent: "center",
     alignItems: "center",
   },
-  row: {
+  language: {
     flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginBottom: 10,
-    paddingStart: 10,
     borderRadius: 8,
     elevation: 4,
-    width: 120,
+    width: 200,
     backgroundColor: Colors.semantic_bg_primary.color,
+    marginVertical: 8,
   },
   text: {
-    marginRight: 10,
+    flex: 1,
+    textAlign: "center",
+    fontWeight: "bold",
+    marginVertical: 16,
   },
 });

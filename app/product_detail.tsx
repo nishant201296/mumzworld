@@ -248,6 +248,7 @@ const ProductDetailsComponent: React.FC<{ store: ProductStore }> = observer(
                   flex: 1,
                   width: "100%",
                   height: 250,
+                  marginTop: 8,
                 }}
               />
             }

@@ -28,14 +28,6 @@ export const TabRoutes = {
       unfocused: "pricetags-outline",
     },
   },
-  acount: {
-    name: "Language",
-    route: Language,
-    tabIcon: {
-      focused: "language-sharp",
-      unfocused: "language-outline",
-    },
-  },
 };
 
 export const ScreenRoutes = {
