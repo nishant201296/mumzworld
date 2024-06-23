@@ -13,8 +13,7 @@ const itemHeight = itemWidth;
 
 export const CategoryBrandListComponent: React.FC<{
   data: string[];
-  title: string;
-}> = observer(({ data, title }) => {
+}> = observer(({ data }) => {
   if (!data.length) {
     return <ActivityIndicator style={{ flex: 1 }} />;
   }
@@ -26,6 +25,7 @@ export const CategoryBrandListComponent: React.FC<{
       pathname: "/search_result",
       params: {
         searchQuery: title,
+        headerTitle: `${title}`,
       },
     });
   };
@@ -36,7 +36,6 @@ export const CategoryBrandListComponent: React.FC<{
         flex: 1,
       }}
     >
-      <Text style={styles.title}>{title}</Text>
       <FlatList
         showsVerticalScrollIndicator={false}
         keyExtractor={keyExtractor}
@@ -44,7 +43,7 @@ export const CategoryBrandListComponent: React.FC<{
         numColumns={newNumColumns}
         removeClippedSubviews={true}
         getItemLayout={(_, index) => ({
-          length: itemHeight,
+          length: itemHeight - 20,
           offset: itemHeight * index,
           index,
         })}
@@ -62,8 +61,9 @@ export const CategoryBrandListComponent: React.FC<{
 
 const styles = StyleSheet.create({
   cardStyle: {
-    height: itemHeight,
-    width: itemWidth,
+    height: itemHeight - 20,
+    width: itemWidth - 20,
+    margin: 10,
   },
   container: {
     flex: 1,

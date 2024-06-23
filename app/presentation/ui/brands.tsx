@@ -6,10 +6,11 @@ import { CategoryBrandListComponent } from "./components/category_brand_list";
 export const Brands = () => {
   const store = new ProductStore();
   store.fetchBrandList();
-  return <BrandsComponent store={store} title={"Search by Brands"} />;
+  return <BrandsComponent store={store} />;
 };
 
-const BrandsComponent: React.FC<{ store: ProductStore; title: string }> =
-  observer(({ store, title }) => {
-    return <CategoryBrandListComponent data={store.brands} title={title} />;
-  });
+const BrandsComponent: React.FC<{ store: ProductStore }> = observer(
+  ({ store }) => {
+    return <CategoryBrandListComponent data={store.brands} />;
+  }
+);

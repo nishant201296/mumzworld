@@ -1,11 +1,10 @@
 import { router, useLocalSearchParams } from "expo-router";
 import { observer } from "mobx-react-lite";
 import React from "react";
-import { Alert, StyleSheet, Text, View } from "react-native";
+import { Alert, StyleSheet, View } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
 import { ProductStore } from "./presentation/stores/product_store";
 import { ProductList } from "./presentation/ui/components/product_list";
-import { Colors } from "./utils/styles";
 
 const SearchResult = () => {
   const { searchQuery } = useLocalSearchParams();
@@ -25,13 +24,15 @@ const SearchResultComponent: React.FC<{
   }
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>{searchQuery}</Text>
       <ProductList
         products={store.products}
         onProductClick={(product) => {
           router.push({
             pathname: "/product_detail",
-            params: { productId: product.id },
+            params: {
+              productId: product.id,
+              headerTitle: `${product.productTitle}`,
+            },
           });
         }}
         onAddToCart={(product) => {
@@ -49,12 +50,6 @@ const SearchResultComponent: React.FC<{
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  header: {
-    textAlign: "center",
-    fontSize: 18,
-    marginVertical: 8,
-    color: Colors.semantic_fg_text.color,
   },
 });
 

@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { TabRoutes } from "./presentation/routes";
+import CustomHeader from "./presentation/ui/components/header";
 import { Colors } from "./utils/styles";
 
 const Tab = createBottomTabNavigator();
@@ -12,8 +13,18 @@ const Index = () => {
     <View style={styles.container}>
       <Tab.Navigator
         initialRouteName={TabRoutes.categories.name}
-        screenOptions={() => ({
-          headerShown: false,
+        screenOptions={({ navigation, route }) => ({
+          header: (props) => {
+            return (
+              <CustomHeader
+                title={props.route.name}
+                {...props}
+                showBackIcon={false}
+                showHeader
+              />
+            );
+          },
+
           tabBarActiveTintColor: Colors.semantic_fg_accent.color,
           tabBarInactiveTintColor: "gray",
           tabBarStyle: {

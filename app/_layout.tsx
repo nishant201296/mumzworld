@@ -1,16 +1,12 @@
 import { SplashScreen, Stack } from "expo-router";
 import React, { useEffect, useState } from "react";
-import {
-  Keyboard,
-  Platform,
-  StyleSheet,
-  TouchableWithoutFeedback,
-} from "react-native";
+import { Keyboard, StyleSheet, TouchableWithoutFeedback } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import "../localization/i18n";
 import { configureI18 } from "../localization/i18n";
 import { ScreenRoutes } from "./presentation/routes";
 import productStoreShared from "./presentation/stores/product_store";
+import CustomHeader from "./presentation/ui/components/header";
 import { Colors } from "./utils/styles";
 SplashScreen.preventAutoHideAsync();
 
@@ -41,7 +37,21 @@ export default function RootLayout() {
         <Stack
           initialRouteName={ScreenRoutes.home.route}
           screenOptions={{
-            headerShown: Platform.OS === "ios",
+            header: (props) => {
+              const routeName = props.route.name;
+              const title =
+                (props.route.params as { headerTitle?: string })?.headerTitle ??
+                routeName;
+
+              return (
+                <CustomHeader
+                  title={title}
+                  navigation={props.navigation}
+                  showBackIcon={false}
+                  showHeader={routeName !== "index" && routeName !== "gallery"}
+                />
+              );
+            },
           }}
         >
           {Object.entries(ScreenRoutes).map((route) => {

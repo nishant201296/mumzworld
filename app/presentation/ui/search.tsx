@@ -35,6 +35,7 @@ const SearchComponent: React.FC<{ store: ProductStore }> = observer(
         pathname: "/search_result",
         params: {
           searchQuery: searchTextRef.current,
+          headerTitle: `${searchTextRef.current}`,
         },
       });
     };

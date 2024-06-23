@@ -232,6 +232,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     paddingVertical: 1,
     backgroundColor: Colors.semantic_bg_subtle.color,
+    marginTop: 8,
   },
   productContainer: {
     width: itemWidth,

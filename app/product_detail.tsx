@@ -17,6 +17,7 @@ import {
   View,
 } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
+import { ArrayData } from "react-native-photos-gallery";
 import { WebView } from "react-native-webview";
 import {
   MediaGalleryEntry,
@@ -26,7 +27,6 @@ import {
 import { ProductStore } from "./presentation/stores/product_store";
 import { BulletPoints } from "./presentation/ui/components/bullets";
 import { Colors } from "./utils/styles";
-import { ArrayData } from "react-native-photos-gallery";
 
 const ProductDetails = () => {
   const { productId } = useLocalSearchParams();
@@ -39,17 +39,17 @@ const ProductDetailsComponent: React.FC<{ store: ProductStore }> = observer(
   ({ store }) => {
     const width = Dimensions.get("window").width;
 
-    const ActionBar = ({ name }: { name: string }) => {
-      return (
-        <View style={styles.actionBar}>
-          <View style={styles.titleContainer}>
-            <Text numberOfLines={1} ellipsizeMode="tail" style={styles.title}>
-              {name}
-            </Text>
-          </View>
-        </View>
-      );
-    };
+    // const ActionBar = ({ name }: { name: string }) => {
+    //   return (
+    //     <View style={styles.actionBar}>
+    //       <View style={styles.titleContainer}>
+    //         <Text numberOfLines={1} ellipsizeMode="tail" style={styles.title}>
+    //           {name}
+    //         </Text>
+    //       </View>
+    //     </View>
+    //   );
+    // };
 
     const renderItem = useCallback(
       ({ item }: { item: MediaGalleryEntry }) => (
@@ -70,11 +70,17 @@ const ProductDetailsComponent: React.FC<{ store: ProductStore }> = observer(
             });
           }}
         >
-          <View>
+          <View
+            style={{
+              width: width,
+              height: width,
+            }}
+          >
             <Image
               width={width}
               height={width}
               resizeMode="contain"
+              style={{ borderWidth: 2 }}
               source={{ uri: store.product?.baseUrl + item.file }}
             />
             {shouldShowYalla(store.product) && (
@@ -258,7 +264,7 @@ const ProductDetailsComponent: React.FC<{ store: ProductStore }> = observer(
         >
           <TouchableWithoutFeedback>
             <View>
-              <ActionBar name={store.product.name} />
+              {/* <ActionBar name={store.product.name} /> */}
 
               <View style={{ flex: 1 }}>
                 <FlatList
@@ -275,6 +281,11 @@ const ProductDetailsComponent: React.FC<{ store: ProductStore }> = observer(
                     setCurrentPage(newIndex);
                   }}
                   style={{ marginTop: 10 }}
+                  snapToAlignment="start"
+                  overScrollMode="never"
+                  snapToInterval={width}
+                  decelerationRate="fast"
+                  keyExtractor={(item, index) => `${index + item.id}`}
                 />
                 <View
                   style={{
@@ -342,7 +353,11 @@ const ProductDetailsComponent: React.FC<{ store: ProductStore }> = observer(
                     justifyContent: "space-between",
                   }}
                 >
-                  <View>
+                  <View
+                    style={{
+                      marginEnd: 16,
+                    }}
+                  >
                     <Text style={styles.productTitle}>
                       {store.product.name}
                     </Text>
