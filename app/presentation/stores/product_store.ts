@@ -138,6 +138,18 @@ export class ProductStore {
     this.setProductsToShow(productsToShow);
   };
 
+  performBrandSearch = async (searchText: string) => {
+    const searchResult = searchProductsUseCase.searchBrands(searchText);
+    const productsToShow = uiProductMapper.map(searchResult);
+    this.setProductsToShow(productsToShow);
+  };
+
+  performCategorySearch = async (searchText: string) => {
+    const searchResult = searchProductsUseCase.searchCategories(searchText);
+    const productsToShow = uiProductMapper.map(searchResult);
+    this.setProductsToShow(productsToShow);
+  };
+
   performKeywordSearchV2 = async (searchText: string) => {
     const searchResult = searchProductsUseCaseV2.searchProducts(searchText);
     const uiSearchResult = searchResultMapper.map(searchResult);

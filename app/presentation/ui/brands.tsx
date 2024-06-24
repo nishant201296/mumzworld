@@ -11,6 +11,6 @@ export const Brands = () => {
 
 const BrandsComponent: React.FC<{ store: ProductStore }> = observer(
   ({ store }) => {
-    return <CategoryBrandListComponent data={store.brands} />;
+    return <CategoryBrandListComponent data={store.brands} type="brands" />;
   }
 );

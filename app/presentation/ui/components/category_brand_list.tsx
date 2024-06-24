@@ -1,11 +1,11 @@
 import { Colors } from "@/app/utils/styles";
+import { capitalizeFirstLetter } from "@/app/utils/utils";
 import { router } from "expo-router";
 import { observer } from "mobx-react-lite";
-import { Dimensions, FlatList, StyleSheet, Text, View } from "react-native";
+import { Dimensions, FlatList, StyleSheet, View } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
-import { Card } from "./card";
-import { capitalizeFirstLetter } from "@/app/utils/utils";
 import { Brand, Category } from "../../models/view_entities";
+import { Card } from "./card";
 
 const { width } = Dimensions.get("window");
 const newNumColumns = width > 1200 ? 6 : width > 800 ? 5 : 3;
@@ -14,7 +14,8 @@ const itemHeight = itemWidth;
 
 export const CategoryBrandListComponent: React.FC<{
   data: Category[] | Brand[];
-}> = observer(({ data }) => {
+  type: "brands" | "categories";
+}> = observer(({ data, type }) => {
   if (!data.length) {
     return <ActivityIndicator style={{ flex: 1 }} />;
   }
@@ -27,6 +28,7 @@ export const CategoryBrandListComponent: React.FC<{
       pathname: "/search_result",
       params: {
         searchQuery: title,
+        searchIn: type,
         headerTitle: `${title}`,
       },
     });

@@ -41,12 +41,13 @@ const SearchComponent: React.FC<{ store: ProductStore }> = observer(
       }
     };
 
-    const onShowSearchResult = (searchQuery: string) => {
+    const onShowSearchResult = (searchQuery: string, searchIn?: string) => {
       router.push({
         pathname: "/search_result",
         params: {
           searchQuery,
           headerTitle: searchQuery,
+          searchIn,
         },
       });
     };
@@ -83,7 +84,7 @@ const SearchComponent: React.FC<{ store: ProductStore }> = observer(
               <Pressable
                 key={brandName + index}
                 onPress={() => {
-                  onShowSearchResult(brandName);
+                  onShowSearchResult(brandName, "brands");
                 }}
               >
                 <View style={styles.brandCategory}>
@@ -115,7 +116,7 @@ const SearchComponent: React.FC<{ store: ProductStore }> = observer(
               <Pressable
                 key={categoryName + index}
                 onPress={() => {
-                  onShowSearchResult(categoryName);
+                  onShowSearchResult(categoryName, "categories");
                 }}
               >
                 <View style={styles.brandCategory}>

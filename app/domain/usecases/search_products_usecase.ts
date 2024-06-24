@@ -2,6 +2,48 @@ import productRepository from "@/app/data/repositoryimpl/product_repository_impl
 import { SearchResultV2 } from "../models/entities";
 
 class SearchProductsUseCase {
+  searchCategories(query: string) {
+    if (!query) {
+      return [];
+    }
+    const indexes = productRepository.getIndexes();
+    const queryWords = query.toLowerCase().split(" ");
+
+    const matchQuery = (text: string) =>
+      queryWords.every((word) => text.includes(word));
+
+    const byCategory: number[] = [];
+    Object.keys(indexes.byCategory)
+      .filter((category) => matchQuery(category))
+      .forEach((category) => byCategory.push(...indexes.byCategory[category]));
+
+    const uniqueResults = Array.from(new Set(byCategory)).map(
+      (pid) => indexes.products[pid]
+    );
+    return uniqueResults;
+  }
+
+  searchBrands(query: string) {
+    if (!query) {
+      return [];
+    }
+    const indexes = productRepository.getIndexes();
+    const queryWords = query.toLowerCase().split(" ");
+
+    const matchQuery = (text: string) =>
+      queryWords.every((word) => text.includes(word));
+
+    const byBrand: number[] = [];
+    Object.keys(indexes.byBrand)
+      .filter((brand) => matchQuery(brand))
+      .forEach((brand) => byBrand.push(...indexes.byBrand[brand]));
+
+    const uniqueResults = Array.from(new Set(byBrand)).map(
+      (pid) => indexes.products[pid]
+    );
+    return uniqueResults;
+  }
+
   searchProducts = (query: string) => {
     if (!query) {
       return [];

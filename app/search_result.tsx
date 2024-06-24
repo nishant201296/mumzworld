@@ -7,9 +7,16 @@ import { ProductStore } from "./presentation/stores/product_store";
 import { ProductList } from "./presentation/ui/components/product_list";
 
 const SearchResult = () => {
-  const { searchQuery } = useLocalSearchParams();
+  const { searchQuery, searchIn } = useLocalSearchParams();
   const store = new ProductStore();
-  store.performKeywordSearch(searchQuery as string);
+  if (searchIn === "brands") {
+    store.performBrandSearch(searchQuery as string);
+  } else if (searchIn === "categories") {
+    store.performCategorySearch(searchQuery as string);
+  } else {
+    store.performKeywordSearch(searchQuery as string);
+  }
+
   return (
     <SearchResultComponent store={store} searchQuery={searchQuery as string} />
   );

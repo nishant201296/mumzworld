@@ -338,6 +338,7 @@ const ProductDetailsComponent: React.FC<{ store: ProductStore }> = observer(
                       pathname: "/search_result",
                       params: {
                         searchQuery: "ivi", // no products for this brands from the products list, hence mocking brand name
+                        searchIn: "brands",
                       },
                     }}
                   >
