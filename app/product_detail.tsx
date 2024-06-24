@@ -36,10 +36,10 @@ const ProductDetails = () => {
   return <ProductDetailsComponent store={store} />;
 };
 
+const width = Dimensions.get("window").width;
+
 const ProductDetailsComponent: React.FC<{ store: ProductStore }> = observer(
   ({ store }) => {
-    const width = Dimensions.get("window").width;
-
     const renderItem = useCallback(
       ({ item }: { item: MediaGalleryEntry }) => (
         <Pressable
@@ -59,12 +59,7 @@ const ProductDetailsComponent: React.FC<{ store: ProductStore }> = observer(
             });
           }}
         >
-          <View
-            style={{
-              width: width,
-              height: width,
-            }}
-          >
+          <View style={styles.imageContainer}>
             <Image
               width={width}
               height={width}
@@ -160,23 +155,7 @@ const ProductDetailsComponent: React.FC<{ store: ProductStore }> = observer(
               }}
             >{`${finalPrice}`}</Text>
 
-            {discount && (
-              <Text
-                style={{
-                  backgroundColor: Colors.semantic_fg_accent.color,
-                  marginStart: 8,
-                  paddingHorizontal: 6,
-                  alignSelf: "baseline",
-                  paddingBottom: 2,
-                  borderRadius: 8,
-                  overflow: "hidden",
-                  color: Colors.semantic_bg_white.color,
-                  fontWeight: "bold",
-                }}
-              >
-                {`${discount}`}
-              </Text>
-            )}
+            {discount && <Text style={styles.discount}>{`${discount}`}</Text>}
           </View>
           <View
             style={{ flexDirection: "row", alignItems: "center", marginTop: 8 }}
@@ -395,24 +374,7 @@ const ProductDetailsComponent: React.FC<{ store: ProductStore }> = observer(
               ]);
             }}
           >
-            <Text
-              style={{
-                color: Colors.semantic_bg_white.color,
-                backgroundColor: Colors.semantic_fg_icon.color,
-                fontWeight: "bold",
-                justifyContent: "center",
-                flex: 1,
-                textAlign: "center",
-                ...Platform.select({
-                  ios: {
-                    lineHeight: 50,
-                  },
-                }),
-                textAlignVertical: "center",
-              }}
-            >
-              {t("add_to_cart_title")}
-            </Text>
+            <Text style={styles.addToCartButton}>{t("add_to_cart_title")}</Text>
           </Pressable>
         </View>
       </View>
@@ -421,6 +383,35 @@ const ProductDetailsComponent: React.FC<{ store: ProductStore }> = observer(
 );
 
 const styles = StyleSheet.create({
+  discount: {
+    backgroundColor: Colors.semantic_fg_accent.color,
+    marginStart: 8,
+    paddingHorizontal: 6,
+    alignSelf: "baseline",
+    paddingBottom: 2,
+    borderRadius: 8,
+    overflow: "hidden",
+    color: Colors.semantic_bg_white.color,
+    fontWeight: "bold",
+  },
+  addToCartButton: {
+    color: Colors.semantic_bg_white.color,
+    backgroundColor: Colors.semantic_fg_icon.color,
+    fontWeight: "bold",
+    justifyContent: "center",
+    flex: 1,
+    textAlign: "center",
+    ...Platform.select({
+      ios: {
+        lineHeight: 50,
+      },
+    }),
+    textAlignVertical: "center",
+  },
+  imageContainer: {
+    width: width,
+    height: width,
+  },
   brandLink: {
     color: Colors.semantic_fg_link.color,
     fontWeight: "600",
