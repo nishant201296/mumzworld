@@ -31,7 +31,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/app_icon.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.nishant.kaushik.mumzworld"
