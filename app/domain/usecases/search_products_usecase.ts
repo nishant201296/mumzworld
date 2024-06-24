@@ -3,9 +3,11 @@ import { SearchResultV2 } from "../models/entities";
 
 class SearchProductsUseCase {
   searchCategories(query: string) {
-    if (!query) {
+    if (!query || !query.trim()) {
       return [];
     }
+
+    query = query.trim();
     const indexes = productRepository.getIndexes();
     const queryWords = query.toLowerCase().split(" ");
 
@@ -24,9 +26,11 @@ class SearchProductsUseCase {
   }
 
   searchBrands(query: string) {
-    if (!query) {
+    if (!query || !query.trim()) {
       return [];
     }
+
+    query = query.trim();
     const indexes = productRepository.getIndexes();
     const queryWords = query.toLowerCase().split(" ");
 
@@ -45,9 +49,11 @@ class SearchProductsUseCase {
   }
 
   searchProducts = (query: string) => {
-    if (!query) {
+    if (!query || !query.trim()) {
       return [];
     }
+
+    query = query.trim();
     const indexes = productRepository.getIndexes();
     const queryWords = query.toLowerCase().split(" ");
 
@@ -80,7 +86,7 @@ class SearchProductsUseCase {
 
 class SearchProductsUseCaseV2 {
   searchProducts = (query: string): SearchResultV2 => {
-    if (!query) {
+    if (!query || !query.trim()) {
       return {
         brandsMatched: {},
         categoryMatched: {},
@@ -88,6 +94,7 @@ class SearchProductsUseCaseV2 {
         totalProductCount: 0,
       };
     }
+    query = query.trim();
     const indexes = productRepository.getIndexes();
     const queryWords = query.toLowerCase().split(" ");
 

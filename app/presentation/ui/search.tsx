@@ -55,22 +55,34 @@ const SearchComponent: React.FC<{ store: ProductStore }> = observer(
     const ResultSummary = () => {
       return (
         <View style={styles.searchResultContainer}>
+          {store.searchResultV2.totalProducts ? <AllProducts /> : <></>}
           {store.searchResultV2.brandNames.length ? <Brands /> : <></>}
           {store.searchResultV2.categoryNames.length ? <Categories /> : <></>}
+        </View>
+      );
+    };
 
-          {store.searchResultV2.totalProducts ? (
-            <Pressable
-              onPress={() => {
-                onShowSearchResult(searchTextRef.current);
-              }}
-            >
+    const AllProducts = () => {
+      return (
+        <View style={styles.brandCategoryContainer}>
+          <Text style={styles.brandCategoryTitle}>{`ALL PRODUCTS`}</Text>
+          <Pressable
+            onPress={() => {
+              onShowSearchResult(searchTextRef.current);
+            }}
+          >
+            <View style={styles.brandCategory}>
               <Text
+                numberOfLines={1}
                 style={styles.productCount}
-              >{`Found ${store.searchResultV2.totalProducts} products`}</Text>
-            </Pressable>
-          ) : (
-            <></>
-          )}
+              >{`Found ${store.searchResultV2.totalProducts} match for "${searchTextRef.current}"`}</Text>
+              <Ionicons
+                name={I18nManager.isRTL ? "chevron-back" : "chevron-forward"}
+                size={24}
+                color={Colors.semantic_fg_accent.color}
+              />
+            </View>
+          </Pressable>
         </View>
       );
     };
@@ -213,14 +225,12 @@ const styles = StyleSheet.create({
   },
   searchResultContainer: {
     paddingHorizontal: 16,
+    paddingBottom: 16,
   },
   productCount: {
-    fontSize: 16,
     textAlign: "left",
-    marginTop: 12,
-    textDecorationLine: "underline",
+    maxWidth: 300,
     textDecorationStyle: "solid",
-    color: Colors.semantic_fg_link.color,
   },
   brandCategoryTitle: {
     fontWeight: "bold",
