@@ -12,18 +12,22 @@ class CreateIndexUseCase {
     data.data.products.items.forEach((item) => {
       index.products[item.id] = item;
 
-      const brandNameKey = item?.brand_info?.title.toLowerCase();
-      if (!index.byBrand[brandNameKey]) {
-        index.byBrand[brandNameKey] = [];
-      }
-      index.byBrand[brandNameKey].push(item.id);
-
-      item.categories.forEach((category) => {
-        const categoryNameKey = category.name.toLowerCase();
-        if (!index.byCategory[categoryNameKey]) {
-          index.byCategory[categoryNameKey] = [];
+      const brandNameKey = item?.brand_info?.title?.toLowerCase();
+      if (brandNameKey) {
+        if (!index.byBrand[brandNameKey]) {
+          index.byBrand[brandNameKey] = [];
         }
-        index.byCategory[categoryNameKey].push(item.id);
+        index.byBrand[brandNameKey].push(item.id);
+      }
+
+      item?.categories?.forEach((category) => {
+        const categoryNameKey = category?.name?.toLowerCase();
+        if (categoryNameKey) {
+          if (!index.byCategory[categoryNameKey]) {
+            index.byCategory[categoryNameKey] = [];
+          }
+          index.byCategory[categoryNameKey].push(item.id);
+        }
       });
     });
 

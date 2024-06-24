@@ -15,7 +15,7 @@ export interface Products {
 
 export interface Item {
   brand: number;
-  brand_info: BrandInfo;
+  brand_info: BrandInfo | null;
   categories: Category[];
   id: number;
   is_yalla: string[];

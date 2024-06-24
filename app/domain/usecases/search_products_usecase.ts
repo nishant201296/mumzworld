@@ -3,6 +3,9 @@ import { SearchResultV2 } from "../models/entities";
 
 class SearchProductsUseCase {
   searchProducts = (query: string) => {
+    if (!query) {
+      return [];
+    }
     const indexes = productRepository.getIndexes();
     const queryWords = query.toLowerCase().split(" ");
 
@@ -35,6 +38,14 @@ class SearchProductsUseCase {
 
 class SearchProductsUseCaseV2 {
   searchProducts = (query: string): SearchResultV2 => {
+    if (!query) {
+      return {
+        brandsMatched: {},
+        categoryMatched: {},
+        productsMatched: {},
+        totalProductCount: 0,
+      };
+    }
     const indexes = productRepository.getIndexes();
     const queryWords = query.toLowerCase().split(" ");
 

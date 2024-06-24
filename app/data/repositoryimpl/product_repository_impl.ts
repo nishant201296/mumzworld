@@ -9,7 +9,7 @@ import {
 import { productRemoteDataSource } from "../datasources/products_remote_data_source";
 import { ProductListDTO } from "../models/product_list";
 
-class ProductRepository implements IProductRepository {
+export class ProductRepository implements IProductRepository {
   indexes: Index = {
     products: {},
     byBrand: {},
