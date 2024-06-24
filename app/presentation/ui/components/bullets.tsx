@@ -62,5 +62,6 @@ const styles = StyleSheet.create({
     color: Colors.semantic_fg_link.color,
     marginTop: 8,
     textDecorationLine: "underline",
+    textAlign: "left",
   },
 });

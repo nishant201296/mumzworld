@@ -9,6 +9,7 @@ import {
   FlatList,
   I18nManager,
   Image,
+  Platform,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -68,7 +69,6 @@ const ProductDetailsComponent: React.FC<{ store: ProductStore }> = observer(
               width={width}
               height={width}
               resizeMode="contain"
-              style={{ borderWidth: 2 }}
               source={{ uri: store.product?.baseUrl + item.file }}
             />
             {shouldShowYalla(store.product) && (
@@ -77,7 +77,7 @@ const ProductDetailsComponent: React.FC<{ store: ProductStore }> = observer(
             {shouldShowReview(store.product) && (
               <Text style={styles.review}>{
                 //mocking
-                `4.1★  9k`
+                `4.1★  9K`
               }</Text>
             )}
           </View>
@@ -151,12 +151,12 @@ const ProductDetailsComponent: React.FC<{ store: ProductStore }> = observer(
           : undefined;
 
       return (
-        <View style={{ flexDirection: "column", marginTop: 8 }}>
+        <View style={{ marginTop: 16 }}>
           <View style={{ flexDirection: "row" }}>
             <Text
               style={{
                 fontWeight: "bold",
-                fontSize: 16,
+                fontSize: 15,
               }}
             >{`${finalPrice}`}</Text>
 
@@ -169,6 +169,7 @@ const ProductDetailsComponent: React.FC<{ store: ProductStore }> = observer(
                   alignSelf: "baseline",
                   paddingBottom: 2,
                   borderRadius: 8,
+                  overflow: "hidden",
                   color: Colors.semantic_bg_white.color,
                   fontWeight: "bold",
                 }}
@@ -177,7 +178,9 @@ const ProductDetailsComponent: React.FC<{ store: ProductStore }> = observer(
               </Text>
             )}
           </View>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <View
+            style={{ flexDirection: "row", alignItems: "center", marginTop: 8 }}
+          >
             {discount && (
               <Text
                 style={{
@@ -193,6 +196,7 @@ const ProductDetailsComponent: React.FC<{ store: ProductStore }> = observer(
             <Text
               style={{
                 fontSize: 12,
+                fontWeight: "300",
                 color: Colors.semantic_fg_text_weak.color,
               }}
             >
@@ -211,18 +215,30 @@ const ProductDetailsComponent: React.FC<{ store: ProductStore }> = observer(
         .filter((point) => point);
 
       return (
-        <View style={{ marginTop: 16 }}>
-          <Text style={{ fontSize: 18, fontWeight: "bold" }}>{`${t(
-            "product_details_title"
-          )}`}</Text>
-          <View style={{ marginStart: 8, marginTop: 8 }}>
-            <Text style={{ fontWeight: "bold" }}>{`${t(
-              "feature_title"
-            )}`}</Text>
-            {points && (
-              <BulletPoints points={points} initialCount={points.length / 2} />
-            )}
+        <View
+          style={{
+            marginTop: 16,
+            marginHorizontal: 10,
+          }}
+        >
+          <Text
+            style={{ fontSize: 16, fontWeight: "bold", textAlign: "left" }}
+          >{`${t("product_details_title")}`}</Text>
+
+          <View>
+            <View style={{ marginStart: 8, marginTop: 8 }}>
+              <Text style={{ fontWeight: "bold", textAlign: "left" }}>{`${t(
+                "feature_title"
+              )}`}</Text>
+              {points && (
+                <BulletPoints
+                  points={points}
+                  initialCount={points.length / 2}
+                />
+              )}
+            </View>
           </View>
+
           <View style={{ marginStart: 8, marginTop: 16 }}>
             <Text style={{ fontWeight: "bold" }}>{`${t(
               "description_title"
@@ -246,21 +262,22 @@ const ProductDetailsComponent: React.FC<{ store: ProductStore }> = observer(
     };
 
     return (
-      <View>
+      <View style={styles.container}>
         <ScrollView
-          style={styles.container}
+          style={styles.scroller}
           contentContainerStyle={styles.scrollViewContentStyle}
         >
           <TouchableWithoutFeedback>
             <View>
-              {/* <ActionBar name={store.product.name} /> */}
-
               <View style={{ flex: 1 }}>
                 <FlatList
                   data={store.product.media_gallery_entries}
                   pagingEnabled
                   renderItem={renderItem}
                   horizontal
+                  onScrollToIndexFailed={(a) => {
+                    console.log("failed", a);
+                  }}
                   ref={flatListRef}
                   showsHorizontalScrollIndicator={false}
                   onMomentumScrollEnd={(event) => {
@@ -272,6 +289,11 @@ const ProductDetailsComponent: React.FC<{ store: ProductStore }> = observer(
                   style={{ marginTop: 10 }}
                   snapToAlignment="start"
                   overScrollMode="never"
+                  getItemLayout={(_, index) => ({
+                    length: width,
+                    offset: width * index,
+                    index,
+                  })}
                   snapToInterval={width}
                   decelerationRate="fast"
                   keyExtractor={(item, index) => `${index + item.id}`}
@@ -319,46 +341,19 @@ const ProductDetailsComponent: React.FC<{ store: ProductStore }> = observer(
                 </View>
               </View>
 
-              <View
-                style={{
-                  height: 1,
-                  backgroundColor: Colors.semantic_bg_muted.color,
-                  width: "100%",
-                  flex: 1,
-                  margin: 8,
-                }}
-              />
-              <View
-                style={{
-                  flex: 1,
-                  width: "100%",
-                  paddingHorizontal: 16,
-                  marginTop: 8,
-                }}
-              >
+              <View style={{ marginHorizontal: 10, marginTop: 8 }}>
                 <View
                   style={{
                     flexDirection: "row",
                     justifyContent: "space-between",
                   }}
                 >
-                  <View
-                    style={{
-                      marginEnd: 16,
-                    }}
-                  >
-                    <Text style={styles.productTitle}>
-                      {store.product.name}
-                    </Text>
-                    <ProductPrice
-                      price={store.product.price_range.minimum_price}
-                    />
-                  </View>
+                  <Text numberOfLines={2} style={styles.productTitle}>
+                    {store.product.name}
+                  </Text>
+
                   <Link
-                    style={{
-                      color: Colors.semantic_fg_link.color,
-                      fontWeight: "600",
-                    }}
+                    style={styles.brandLink}
                     push
                     href={{
                       pathname: "/search_result",
@@ -370,21 +365,30 @@ const ProductDetailsComponent: React.FC<{ store: ProductStore }> = observer(
                     {t(`explore_brand`)}
                   </Link>
                 </View>
-                <ProductInfo />
+                <ProductPrice price={store.product.price_range.minimum_price} />
               </View>
+
+              <ProductInfo />
             </View>
           </TouchableWithoutFeedback>
         </ScrollView>
+
         <View
           style={{
-            position: "absolute",
-            bottom: 0,
-            width: "100%",
-            elevation: 1,
-            height: 60,
+            backgroundColor: "red",
+            height: 50,
+            shadowColor: Colors.black.color,
+            shadowOffset: { width: 0, height: 2 },
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "row",
+            borderTopStartRadius: 8,
+            overflow: "hidden",
+            borderTopEndRadius: 8,
           }}
         >
           <Pressable
+            style={{ height: "100%", width: "100%" }}
             onPress={() => {
               Alert.alert(t("added_title"), t("added_desc"), [
                 { text: t("added_done") },
@@ -396,15 +400,14 @@ const ProductDetailsComponent: React.FC<{ store: ProductStore }> = observer(
                 color: Colors.semantic_bg_white.color,
                 backgroundColor: Colors.semantic_fg_icon.color,
                 fontWeight: "bold",
-                margin: 8,
                 justifyContent: "center",
-                height: 60,
-                alignItems: "center",
-                alignContent: "center",
-                elevation: 1,
-                borderTopRightRadius: 12,
-                borderTopLeftRadius: 12,
+                flex: 1,
                 textAlign: "center",
+                ...Platform.select({
+                  ios: {
+                    lineHeight: 50,
+                  },
+                }),
                 textAlignVertical: "center",
               }}
             >
@@ -418,19 +421,28 @@ const ProductDetailsComponent: React.FC<{ store: ProductStore }> = observer(
 );
 
 const styles = StyleSheet.create({
+  brandLink: {
+    color: Colors.semantic_fg_link.color,
+    fontWeight: "600",
+  },
   productTitle: {
-    fontSize: 16,
+    fontSize: 14,
     width: "100%",
     textAlign: "left",
     fontWeight: "bold",
+    flexWrap: "wrap",
     flex: 1,
   },
   scrollViewContentStyle: {
     alignItems: "center",
+    paddingBottom: 20,
   },
   container: {
-    paddingTop: 10,
+    flex: 1,
     backgroundColor: Colors.semantic_bg_white.color,
+  },
+  scroller: {
+    backgroundColor: Colors.semantic_bg_subtle.color,
   },
   actionBar: {
     flexDirection: "row",
@@ -461,6 +473,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.semantic_support_yellow.color,
     paddingHorizontal: 6,
     borderRadius: 8,
+    overflow: "hidden",
     color: Colors.semantic_fg_text.color,
     position: "absolute",
     marginEnd: 8,
@@ -474,6 +487,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 6,
     paddingVertical: 2,
     borderRadius: 8,
+    overflow: "hidden",
     color: Colors.semantic_bg_white.color,
     position: "absolute",
     marginEnd: 8,
